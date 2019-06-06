@@ -35,15 +35,10 @@ agent.intent('Default Welcome Intent', (conv) => {
     } else {
       conv.ask(`Hey ${payload.name}, welcome back!`);
       // conv.ask(`This is your gmail id: ${payload.email}`);
-      conv.ask(new BasicCard({
-        image: new Image({
-          url: `${payload.picture}`,
-          alt: 'shivam sharma',
-        }),
-        text:'Hi this is a demo of the card',
-        title: 'Your YouTube Assistant!',
-        subtitle: `${payload.name}`,
-      }));
+      conv.ask(new Button({
+        title: 'Go to this link...',
+        url: 'https://github.com/Shivamdot'
+      }))
     }
   }
 })

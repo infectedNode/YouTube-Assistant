@@ -16,7 +16,7 @@ const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
   conv.ask('hi, welcome to your youtube channel.');
-  conv.followup('demo');
+  // conv.followup('demo');
 })
 
 // agent.intent('demo', (conv) => {

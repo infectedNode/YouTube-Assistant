@@ -35,6 +35,7 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask(`Hey ${payload.name}, welcome back!`);
       // conv.ask(`This is your gmail id: ${payload.email}`);
       conv.ask(new BasicCard({
+        text: 'this is acaed demo',
         subtitle: `${payload.name}`,
         title: 'Your YouTube Assistant!',
         buttons: new Button({

@@ -22,7 +22,7 @@ agent.intent('Default Welcome Intent', (conv) => {
     const {payload} = conv.user.profile;
     if(!payload) {
       conv.ask('Hey welcome back!');
-      conv.ask('As I can see you are not Signed In ');
+      conv.ask('As I can see you are not Signed In ').ask(new SignIn('In order to get connected with your youtube account'));
     }
   }
 })

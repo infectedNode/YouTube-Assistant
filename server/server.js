@@ -20,7 +20,8 @@ class Helper {
   }
 
   signIn() {
-    this.conv.ask(new SignIn('In order to get connected with your youtube account'));
+    // this.conv.ask(new SignIn('In order to get connected with your youtube account'));
+    this.conv.ask('hi lets sign in');
   }
 }
 

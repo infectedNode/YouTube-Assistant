@@ -31,7 +31,8 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
     } else {
-      conv.ask(`Hey ${payload.name}, welcome back!`)
+      conv.ask(`Hey ${payload.name}, welcome back!`);
+      conv.ask(`This is your gmail id: ${payload.email}`);
     }
   }
 })

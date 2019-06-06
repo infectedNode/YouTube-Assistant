@@ -14,6 +14,21 @@ const agent = dialogflow({
 
 const service = google.youtube('v3');
 
+class Helper {
+  constructor(conv) {
+    this.conv = conv;
+  }
+
+  signIn() {
+    this.conv.ask(new SignIn('In order to get connected with your youtube account'));
+  }
+}
+
+app.middleware((conv) => {
+  conv.helper = new Helper(conv);
+});
+
+
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {
     conv.ask('Hi, welcome to your YouTube channel. I can tell your channel growth or provide a report about your last uploaded video.');
@@ -23,10 +38,24 @@ agent.intent('Default Welcome Intent', (conv) => {
     if(!payload) {
       conv.ask('Hey welcome back!');
       conv.ask('As I can see you are not Signed In ');
-      conv.ask(new SignIn('In order to get connected with your youtube account'));
+      conv.helper.signIn();
     }
   }
 })
+
+agent.intent('ask_for_sign_in', (conv) => {
+  conv.ask(new SignIn('In order to get connected with your youtube account'));
+})
+
+agent.intent('Get Signin', (conv, params, signin) => {
+  if (signin.status === 'OK') {
+      const payload = conv.user.profile.payload;
+      conv.ask(`I got your account details, ${payload.name}. What do you want to do next? sir ji`);
+    } else {
+      conv.ask(`I won't be able to save your data, but what do you want to do next?`);
+    }
+})
+
 
 agent.intent('demo', (conv) => {
   conv.close('As a demo, let say i have a youtube channel.');

@@ -38,12 +38,8 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask(new BasicCard({
         subtitle: `${payload.name}`,
         title: 'Your YouTube Assistant!',
-        buttons: new Button({
-          title: 'This is a button',
-          url: 'https://assistant.google.com/',
-        }),
         image: new Image({
-          url: `${payload.image}`,
+          url: `${payload.picture}`,
           alt: 'shivam sharma',
         }),
         display: 'CROPPED',

@@ -19,9 +19,9 @@ agent.intent('Default Welcome Intent', (conv) => {
   conv.followup('demo');
 })
 
-agent.intent('demo', (conv) => {
-  conv.close('As a demo, let say i have a youtube channel.');
-})
+// agent.intent('demo', (conv) => {
+//   conv.close('As a demo, let say i have a youtube channel.');
+// })
 
 
 

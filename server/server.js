@@ -33,15 +33,15 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
     } else {
-      conv.ask(`Hey ${payload.name}, welcome back!`);
-      // conv.ask(`This is your gmail id: ${payload.email}`);
-      conv.ask(new BasicCard({
+      conv.ask(`Hey ${payload.name}, welcome back!` + new BasicCard({
         text:'In order to give me access to **Read** your Youtube data',
         buttons: new Button({
           title: 'Go to this link...',
           url: 'https://github.com/Shivamdot'
         })
-      })); 
+      }));
+      // conv.ask(`This is your gmail id: ${payload.email}`);
+      // conv.ask(); 
     }
   }
 })

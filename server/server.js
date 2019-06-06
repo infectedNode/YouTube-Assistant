@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 const agent = dialogflow({
     debug: true,
+    clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
   });
 
 const service = google.youtube('v3');

@@ -5,7 +5,8 @@ const {
   Image,
   SignIn,
   NewSurface,
-  Suggestions
+  Suggestions,
+  BasicCard
 } = require('actions-on-google');  
 const {google} = require('googleapis');
 const bodyParser = require('body-parser');
@@ -32,7 +33,20 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask('To continue please say Sign In');
     } else {
       conv.ask(`Hey ${payload.name}, welcome back!`);
-      conv.ask(`This is your gmail id: ${payload.email}`);
+      // conv.ask(`This is your gmail id: ${payload.email}`);
+      conv.ask(new BasicCard({
+        subtitle: `${payload.name}`,
+        title: 'Your YouTube Assistant!',
+        buttons: new Button({
+          title: 'This is a button',
+          url: 'https://assistant.google.com/',
+        }),
+        image: new Image({
+          url: 'https://example.com/image.png',
+          alt: 'Image alternate text',
+        }),
+        display: 'CROPPED',
+      }));
     }
   }
 })

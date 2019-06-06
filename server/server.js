@@ -40,6 +40,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           url: `${payload.picture}`,
           alt: 'shivam sharma',
         }),
+        text:'Hi this is a demo of the card',
         title: 'Your YouTube Assistant!',
         subtitle: `${payload.name}`,
       }));

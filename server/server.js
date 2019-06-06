@@ -15,8 +15,12 @@ const agent = dialogflow({
 const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
-  conv.ask('hi, welcome to your youtube channel.');
-  conv.followup('demo');
+  if(conv.user.last.seen) {
+    conv.ask('hey welcome back, how may i help you')
+  } else {
+    conv.ask('hi, welcome to your youtube channel.');
+    conv.ask('As a demo, let say i have a youtube channel.');
+  }
 })
 
 agent.intent('demo', (conv) => {

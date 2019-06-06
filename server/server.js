@@ -42,8 +42,8 @@ agent.intent('Default Welcome Intent', (conv) => {
           url: 'https://assistant.google.com/',
         }),
         image: new Image({
-          url: 'https://example.com/image.png',
-          alt: 'Image alternate text',
+          url: `${payload.image}`,
+          alt: 'shivam sharma',
         }),
         display: 'CROPPED',
       }));

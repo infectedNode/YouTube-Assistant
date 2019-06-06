@@ -16,10 +16,15 @@ const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {
-    conv.ask('hi, welcome to your youtube channel.');
+    conv.ask('Hi, welcome to your YouTube channel. I can tell your channel growth or provide a report about your last uploaded video.');
     conv.ask('As a demo, let say i have a youtube channel.');
   } else {
-    conv.ask('hey welcome back, how may i help you')
+    const {payload} = conv.user.profile;
+    if(!payload) {
+      conv.ask('Hey welcome back!');
+      conv.ask('As I can see you are not Signed In ');
+      conv.ask(new SignIn('In order to get connected with your youtube account'));
+    }
   }
 })
 

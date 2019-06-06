@@ -27,9 +27,8 @@ agent.intent('Default Welcome Intent', (conv) => {
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
-      conv.ask('Hey welcome back!');
-      conv.ask('As I can see you are not Signed In ');
-      conv.add('To continue please say Sign In');
+      conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
+      conv.ask('To continue please say Sign In');
     } else {
       conv.ask(`Hey ${payload.name}, welcome back!`)
     }

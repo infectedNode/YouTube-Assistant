@@ -35,12 +35,7 @@ agent.intent('Default Welcome Intent', (conv) => {
     } else {
       conv.ask(`Hey ${payload.name}, welcome back!`);
       // conv.ask(`This is your gmail id: ${payload.email}`);
-      conv.ask(new BasicCard({
-        buttons: new Button({
-          title: 'Go to this link...',
-          url: 'https://github.com/Shivamdot'
-        })
-      })); 
+      conv.ask('go to this link<a href="https://github.com/Shivamdot">youtube access</a>');
     }
   }
 })

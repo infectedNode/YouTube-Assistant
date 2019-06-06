@@ -42,10 +42,6 @@ agent.intent('Default Welcome Intent', (conv) => {
           title: 'This is a button',
           url: 'https://assistant.google.com/',
         }),
-        image: new Image({
-          url: `${payload.image}`,
-          alt: 'shivam sharma',
-        }),
         display: 'CROPPED',
       }));
     }

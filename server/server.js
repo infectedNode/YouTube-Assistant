@@ -1,6 +1,12 @@
 const express = require('express');
 const admin = require('firebase-admin');
-const {dialogflow,Image,SignIn,NewSurface} = require('actions-on-google');  
+const {
+  dialogflow,
+  Image,
+  SignIn,
+  NewSurface,
+  Suggestions
+} = require('actions-on-google');  
 const {google} = require('googleapis');
 const bodyParser = require('body-parser');
 
@@ -15,28 +21,31 @@ const agent = dialogflow({
 const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
-  if(!conv.user.last.seen) {
+  if(!conv.user.last.seen) {      //First time users
     conv.ask('Hi, welcome to your YouTube channel. I can tell your channel growth or provide a report about your last uploaded video.');
     conv.ask('As a demo, let say i have a youtube channel.');
-  } else {
+  } else {                       //Old users
     const {payload} = conv.user.profile;
-    if(!payload) {
+    if(!payload) {               
       conv.ask('Hey welcome back!');
-      conv.ask('As I can see you are not Signed In ').ask(new SignIn('In order to get connected with your youtube account'));
+      conv.ask('As I can see you are not Signed In ');
+      conv.ask('To continue please say Sign In');
+    } else {
+      conv.ask(`Hey ${payload.name}! welcome back.`)
     }
   }
 })
 
 agent.intent('ask_for_sign_in', (conv) => {
-  conv.ask(new SignIn('In order to get connected with your youtube account'));
+  conv.ask(new SignIn('In order to get personalised assistance'));
 })
 
 agent.intent('Get Signin', (conv, params, signin) => {
   if (signin.status === 'OK') {
       const payload = conv.user.profile.payload;
-      conv.ask(`I got your account details, ${payload.name}. What do you want to do next? sir ji`);
+      conv.close(`I got your account details, ${payload.name}. What do you want to do next? sir ji`);
     } else {
-      conv.ask(`I won't be able to save your data, but what do you want to do next?`);
+      conv.close(`I won't be able to save your data, but what do you want to do next?`);
     }
 })
 

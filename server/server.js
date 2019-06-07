@@ -67,11 +67,24 @@ agent.intent('Default Welcome Intent', (conv) => {
           // if access not granted : ask for youtube access and provide link
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nPlease go to the following link, in order to continue with me.`);
           
+          let token = {
+            email: `${payload.email}`
+          };
+    
+          let state = jwt.sign(token, '123abc');
+    
+          let url = oauth2Client.generateAuthUrl({
+            access_type: 'offline',
+            response_type: 'code',
+            scope: SCOPES,
+            state: `${state}`
+          });
+
           conv.ask(new BasicCard({
             text:'In order to give me access to **Read** your Youtube data',
             buttons: new Button({
               title: 'Go to this link...',
-              url: 'https://github.com/Shivamdot'
+              url: `${url}`
             })
           })); 
         } else {
@@ -139,6 +152,7 @@ app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
   var code = req.query.code; 
   var error = req.query.error;
+
   if(state && code && !error) {
     let {email} = jwt.verify(state, '123abc');
     res.send(`email: ${email}, status: successfull`);

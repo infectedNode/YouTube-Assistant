@@ -36,7 +36,7 @@ db.settings({
 });
 
 const YOUR_CLIENT_ID = "122184330678-3557i6676ekrctmr3r6jom5a5vb27gej.apps.googleusercontent.com";
-const YOUR_CLIENT_SECRET = "KKwx8MjXJ4YDz_diHGoUaJ91";
+const YOUR_CLIENT_SECRET = "lEshPCDKSzkDeAL45xormMd8";
 const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
 const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 

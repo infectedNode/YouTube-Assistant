@@ -38,7 +38,7 @@ db.settings({
 const YOUR_CLIENT_ID = "122184330678-3557i6676ekrctmr3r6jom5a5vb27gej.apps.googleusercontent.com";
 const YOUR_CLIENT_SECRET = "lEshPCDKSzkDeAL45xormMd8";
 // const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
-const YOUR_REDIRECT_URL = "https://localhost:2000/oauthcallback/";
+const YOUR_REDIRECT_URL = "http://localhost:2000/oauthcallback/";
 const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 const oauth2Client = new google.auth.OAuth2(

@@ -108,7 +108,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
 
       let url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        response_type: 'code',
+        // response_type: 'code',
         scope: SCOPES,
         state: `${state}`
       });
@@ -128,12 +128,9 @@ agent.intent('Get Signin', (conv, params, signin) => {
     }
 });
 
-
 agent.intent('demo', (conv) => {
   conv.close('As a demo, let say i have a youtube channel.');
 })
-
-
 
 app.post('/', agent);
 

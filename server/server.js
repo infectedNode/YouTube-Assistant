@@ -38,21 +38,21 @@ const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time users
-    conv.ask('Hi, welcome to your YouTube channel. I can tell your channel growth or provide a report about your last uploaded video.');
+    conv.ask('Hi, welcome to your YouTube Assistant. I can tell your channel growth or provide a report about your last uploaded video.');
     conv.ask('As a demo, let say i have a youtube channel.');
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
-      conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
+      conv.ask('Hey welcome back!  \nAs I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
     } else {
       // make a get(payload.email) request to the database   
       return db.collection('users').doc(`${payload.email}`).get().then((doc) => {
         let data = doc.data();
+        // check for youtube access token
         if(data.token === null) {
-          conv.ask(`Hey ${data.name} !, welcome back to your YouTube Assistant  \n
-          As I can see you have not given me an access to read your YouTube data.  \n
-          Please go to the following link, in order to continue with me.`);
+          // if access not granted : ask for youtube access and provide link
+          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nPlease go to the following link, in order to continue with me.`);
           conv.ask(new BasicCard({
             text:'In order to give me access to **Read** your Youtube data',
             buttons: new Button({
@@ -61,20 +61,15 @@ agent.intent('Default Welcome Intent', (conv) => {
             })
           })); 
         } else {
-          conv.ask(`Hey ${data.name} !, welcome back to your YouTube Assistant  \n
-          How may I help you...`);
+          // if access granted : normal flow
+          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nHow may I help you...`);
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');
       });
-      
-      // check for youtube access token
-
-      // if access granted : normal flow     
-      // if access not granted : ask for youtube access and provide link     
     }
   }
-})
+});
 
 agent.intent('ask_for_sign_in', (conv) => {
   conv.ask(new SignIn('In order to get personalised assistance'));

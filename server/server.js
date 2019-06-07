@@ -155,9 +155,27 @@ app.get('/oauthcallback/', (req, res) => {
 
   if(state && code && !error) {
     let {email} = jwt.verify(state, '123abc');
-    res.send(`email: ${email}, status: successfull`);
+    db.collection('users').doc(`${email}`).get().then((doc) => {
+      if(!doc.exists){
+        return res.send('Account does not exists ...');
+      }
+      let data = doc.data();
+      if(data.token !== null) {
+        return res.send('Access to this account already exists');
+      }
+      oauth2Client.getToken(code).then((result) => {
+        let token = result.tokens;
+        db.collection('users').doc(`${email}`).update({token}).then(() => {
+          res.send('Access granted Succesfully ...');
+        });
+      });
+    }).catch((err) => {
+      res.send('error getting the document' + err);
+    });
+  } else if(state && (error === 'access_denied')) {
+    res.send('some error occured or probably access not given');
   } else {
-    res.send('some error occured or probably access not given')
+    res.send('your are not authorized to this page');
   }
 });
 

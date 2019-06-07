@@ -4,11 +4,17 @@ var token = {
   email: 'shivam231198@gmail.com'
 };
 
-var state = jwt.sign(token, '123abc');
-console.log(state);
+// var state = jwt.sign(token, '123abc');
+// console.log(state);
 
-var decoded = jwt.verify(state, '123abc');
-console.log(decoded);
+let x = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbTIzMTE5OEBnbWFpbC5jb20iLCJpYXQiOjE1NTk5Mjc1MDh9.GGr1QyB-cfkIBaGzo_2XSLbpTE9HIQ0XJBJaKr39NN0';
+
+
+jwt.verify(x, '123abc').then(data => {
+  console.log(data);
+}).catch(err => {
+  console.log(err);
+});
 
 
 // const admin = require('firebase-admin');

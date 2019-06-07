@@ -68,7 +68,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
       token: null
     };
     return db.collection('users').doc(`${payload.email}`).set(data).then((res) => {
-      conv.ask('I got your account details.  /nNow one last step left.  /nTo get authorised from youtube');
+      conv.ask('I got your account details.  \nNow one last step left.  \nTo get authorised from youtube');
       
       //Create url for the given email
 
@@ -83,7 +83,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
       conv.close('Sorry, some error occured, please try again later');
     });
     } else {
-      conv.close('Getting Signed In, is an esential part to continue.  /nAnd remember you can always ask for a demo...');
+      conv.close('Getting Signed In, is an esential part to continue.  \nAnd remember you can always ask for a demo...');
     }
 });
 

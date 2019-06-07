@@ -37,7 +37,8 @@ db.settings({
 
 const YOUR_CLIENT_ID = "122184330678-3557i6676ekrctmr3r6jom5a5vb27gej.apps.googleusercontent.com";
 const YOUR_CLIENT_SECRET = "lEshPCDKSzkDeAL45xormMd8";
-const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
+// const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
+const YOUR_REDIRECT_URL = "https://localhost:2000/oauthcallback/";
 const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 const oauth2Client = new google.auth.OAuth2(
@@ -104,14 +105,13 @@ agent.intent('Get Signin', (conv, params, signin) => {
         email: `${payload.email}`
       };
 
-      // let state = jwt.sign(token, '123abc');
-      // let state = `${payload.email}`;
+      let state = jwt.sign(token, '123abc');
 
       let url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         response_type: 'code',
         scope: SCOPES,
-        // state: `${state}`
+        state: `${state}`
       });
 
       conv.ask(new BasicCard({
@@ -139,10 +139,9 @@ app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
   var code = req.query.code; 
   var error = req.query.error;
-  if(code && !error) {
-    // let {email} = jwt.verify(state, '123abc');
-    // res.send(`email: ${email}, status: successfull`);
-    res.send(`status: successfull`);
+  if(state && code && !error) {
+    let {email} = jwt.verify(state, '123abc');
+    res.send(`email: ${email}, status: successfull`);
   } else {
     res.send('some error occured or probably access not given')
   }

@@ -67,7 +67,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
       picture: `${payload.picture}`,
       token: null
     };
-    db.collection('users').doc(`${payload.email}`).set(data).then((res) => {
+    return db.collection('users').doc(`${payload.email}`).set(data).then((res) => {
       conv.ask('I got your account details.  /nNow one last step left.  /nTo get authorised from youtube');
       
       //Create url for the given email

@@ -10,6 +10,7 @@ const {
   Button
 } = require('actions-on-google');  
 const {google} = require('googleapis');
+const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 
 var app = express();
@@ -34,6 +35,17 @@ db.settings({
   timestampsInSnapshots: true
 });
 
+const YOUR_CLIENT_ID = "122184330678-3557i6676ekrctmr3r6jom5a5vb27gej.apps.googleusercontent.com";
+const YOUR_CLIENT_SECRET = "KKwx8MjXJ4YDz_diHGoUaJ91";
+const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
+const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
+
+const oauth2Client = new google.auth.OAuth2(
+  YOUR_CLIENT_ID,
+  YOUR_CLIENT_SECRET,
+  YOUR_REDIRECT_URL
+);  
+
 const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
@@ -53,6 +65,7 @@ agent.intent('Default Welcome Intent', (conv) => {
         if(data.token === null) {
           // if access not granted : ask for youtube access and provide link
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nPlease go to the following link, in order to continue with me.`);
+          
           conv.ask(new BasicCard({
             text:'In order to give me access to **Read** your Youtube data',
             buttons: new Button({
@@ -87,12 +100,24 @@ agent.intent('Get Signin', (conv, params, signin) => {
       conv.ask('I got your account details.  \nNow one last step left.  \nTo get authorised from youtube');
       
       //Create url for the given email
+      let token = {
+        email: `${payload.email}`
+      };
+
+      let state = jwt.sign(token, '123abc');
+
+      let url = oauth2Client.generateAuthUrl({
+        access_type: 'offline',
+        response_type: 'code',
+        scope: SCOPES,
+        state: `${state}`
+      });
 
       conv.ask(new BasicCard({
         text:'In order to give me access to **Read** your Youtube data',
         buttons: new Button({
-          title: 'Go to this link...',
-          url: 'https://github.com/Shivamdot'
+          title: 'Go to this link ...',
+          url: `${url}`
         })
       })); 
     }).catch((err) => {
@@ -112,8 +137,20 @@ agent.intent('demo', (conv) => {
 
 app.post('/', agent);
 
+app.get('/oauthcallback/', (req, res) => {
+  var state = req.query.state;
+  var code = req.query.code; 
+  var error = req.query.error;
+  if(state && code && !error) {
+    let {email} = jwt.verify(state, '123abc');
+    res.send(`email: ${email}, status: successfull`);
+  } else {
+    res.send('some error occured or probably access not given')
+  }
+});
+
 var port = process.env.PORT || 2000;
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+  console.log(`Server started on port ${port}`);
 });

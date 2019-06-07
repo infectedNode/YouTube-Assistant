@@ -104,7 +104,8 @@ agent.intent('Get Signin', (conv, params, signin) => {
         email: `${payload.email}`
       };
 
-      let state = jwt.sign(token, '123abc');
+      // let state = jwt.sign(token, '123abc');
+      let state = `${payload.email}`;
 
       let url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -139,8 +140,9 @@ app.get('/oauthcallback/', (req, res) => {
   var code = req.query.code; 
   var error = req.query.error;
   if(state && code && !error) {
-    let {email} = jwt.verify(state, '123abc');
-    res.send(`email: ${email}, status: successfull`);
+    // let {email} = jwt.verify(state, '123abc');
+    // res.send(`email: ${email}, status: successfull`);
+    res.send(`email: ${state}, status: successfull`);
   } else {
     res.send('some error occured or probably access not given')
   }

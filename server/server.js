@@ -16,10 +16,23 @@ var app = express();
 
 app.use(bodyParser.json());
 
-const agent = dialogflow({
-    debug: true,
-    clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
-  });
+var agent = dialogflow({
+  debug: true,
+  clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
+});
+
+const serviceAccount = require('./../serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://assistant-a4a97.firebaseio.com"
+});
+
+var db = admin.firestore();
+
+db.settings({
+  timestampsInSnapshots: true
+});
 
 const service = google.youtube('v3');
 
@@ -33,15 +46,11 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
     } else {
-      conv.ask(`Hey ${payload.name}, welcome back!`);
-      // conv.ask(`This is your gmail id: ${payload.email}`);
-      conv.ask(new BasicCard({
-        text:'In order to give me access to **Read** your Youtube data',
-        buttons: new Button({
-          title: 'Go to this link...',
-          url: 'https://github.com/Shivamdot'
-        })
-      })); 
+      // make a get(payload.email) request to the database     
+      // check for youtube access token
+
+      // if access granted : normal flow     
+      // if access not granted : ask for youtube access and provide link     
     }
   }
 })
@@ -52,12 +61,31 @@ agent.intent('ask_for_sign_in', (conv) => {
 
 agent.intent('Get Signin', (conv, params, signin) => {
   if (signin.status === 'OK') {
-      const payload = conv.user.profile.payload;
-      conv.close(`I got your account details, ${payload.name}. What do you want to do next? sir ji`);
+    const {payload} = conv.user.profile;  
+    let data = {
+      name: `${payload.name}`,
+      picture: `${payload.picture}`,
+      token: null
+    };
+    db.collection('users').doc(`${payload.email}`).set(data).then((res) => {
+      conv.ask('I got your account details.  /nNow one last step left.  /nTo get authorised from youtube');
+      
+      //Create url for the given email
+
+      conv.ask(new BasicCard({
+        text:'In order to give me access to **Read** your Youtube data',
+        buttons: new Button({
+          title: 'Go to this link...',
+          url: 'https://github.com/Shivamdot'
+        })
+      })); 
+    }).catch((err) => {
+      conv.close('Sorry, some error occured, please try again later');
+    });
     } else {
-      conv.close(`I won't be able to save your data, but what do you want to do next?`);
+      conv.close('Getting Signed In, is an esential part to continue.  /nAnd remember you can always ask for a demo...');
     }
-})
+});
 
 
 agent.intent('demo', (conv) => {

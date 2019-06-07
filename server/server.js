@@ -105,13 +105,13 @@ agent.intent('Get Signin', (conv, params, signin) => {
       };
 
       // let state = jwt.sign(token, '123abc');
-      let state = `${payload.email}`;
+      // let state = `${payload.email}`;
 
       let url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        // response_type: 'code',
+        response_type: 'code',
         scope: SCOPES,
-        state: `${state}`
+        // state: `${state}`
       });
 
       conv.ask(new BasicCard({
@@ -139,10 +139,10 @@ app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
   var code = req.query.code; 
   var error = req.query.error;
-  if(state && code && !error) {
+  if(code && !error) {
     // let {email} = jwt.verify(state, '123abc');
     // res.send(`email: ${email}, status: successfull`);
-    res.send(`email: ${state}, status: successfull`);
+    res.send(`status: successfull`);
   } else {
     res.send('some error occured or probably access not given')
   }

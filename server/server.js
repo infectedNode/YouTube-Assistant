@@ -46,7 +46,28 @@ agent.intent('Default Welcome Intent', (conv) => {
       conv.ask('Hey welcome back!\n As I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
     } else {
-      // make a get(payload.email) request to the database     
+      // make a get(payload.email) request to the database   
+      return db.collection('users').doc(`${payload.email}`).get().then((doc) => {
+        let data = doc.data();
+        if(data.token === null) {
+          conv.ask(`Hey ${data.name} !, welcome back to your YouTube Assistant  \n
+          As I can see you have not given me an access to read your YouTube data.  \n
+          Please go to the following link, in order to continue with me.`);
+          conv.ask(new BasicCard({
+            text:'In order to give me access to **Read** your Youtube data',
+            buttons: new Button({
+              title: 'Go to this link...',
+              url: 'https://github.com/Shivamdot'
+            })
+          })); 
+        } else {
+          conv.ask(`Hey ${data.name} !, welcome back to your YouTube Assistant  \n
+          How may I help you...`);
+        }
+      }).catch((err) => {
+        conv.close('Sorry, some error occured, please try again later');
+      });
+      
       // check for youtube access token
 
       // if access granted : normal flow     

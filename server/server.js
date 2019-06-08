@@ -50,9 +50,18 @@ const oauth2Client = new google.auth.OAuth2(
 const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
-  if(!conv.user.last.seen) {      //First time users
-    conv.ask('Hi, welcome to your YouTube Assistant. I can tell your channel growth or provide a report about your last uploaded video.');
-    conv.ask('As a demo, let say i have a youtube channel.');
+  if(conv.user.last.seen) {      //First time users
+    conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.  \nYour video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+    conv.ask(new BasicCard({
+      image: new Image({
+        url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
+        alt: 'shivam sharma',
+      }),
+      title: 'Demo of My Red Channel',
+      subtitle: `08-06-2019`,
+      text:'Views :    10,000  \nLikes :     5,000  \nComments :     2,000  \nDislikes :     50',
+    })); 
+  
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               

@@ -47,7 +47,7 @@ const oauth2Client = new google.auth.OAuth2(
   YOUR_REDIRECT_URL
 );  
 
-const service = google.youtube('v3');
+// const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's

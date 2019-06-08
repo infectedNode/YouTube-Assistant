@@ -50,7 +50,7 @@ const oauth2Client = new google.auth.OAuth2(
 const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
-  if(conv.user.last.seen) {      //First time user's
+  if(!conv.user.last.seen) {      //First time user's
     conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.  \nYour video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
     conv.ask(new BasicCard({
       image: new Image({
@@ -61,7 +61,7 @@ agent.intent('Default Welcome Intent', (conv) => {
       subtitle: `08-06-2019`,
       text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
       buttons: new Button({
-        title: 'Link to the video ...',
+        title: 'Link to this video ...',
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
@@ -156,7 +156,21 @@ agent.intent('Get Signin', (conv, params, signin) => {
 });
 
 agent.intent('demo', (conv) => {
-  conv.close('As a demo, let say i have a youtube channel.');
+  conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.  \nYour video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+  conv.ask(new BasicCard({
+    image: new Image({
+      url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
+      alt: 'shivam sharma',
+    }),
+    title: 'Demo of My Red Channel',
+    subtitle: `08-06-2019`,
+    text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
+    buttons: new Button({
+      title: 'Link to this video ...',
+      url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
+    })
+  }));
+  conv.ask('In order to get connected please say Sign In');
 })
 
 app.post('/', agent);

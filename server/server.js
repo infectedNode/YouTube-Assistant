@@ -59,7 +59,11 @@ agent.intent('Default Welcome Intent', (conv) => {
       }),
       title: 'Demo of My Red Channel',
       subtitle: `08-06-2019`,
-      text:'Views \t: \t10,000  \nLikes \t: \t5,000  \nComments \t: \t2,000  \nDislikes \t: \t50',
+      text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
+      buttons: new Button({
+        title: 'Link to the video ...',
+        url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
+      })
     })); 
   
   } else {                       //Old users

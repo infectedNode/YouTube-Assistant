@@ -96,13 +96,16 @@ agent.intent('Default Welcome Intent', (conv) => {
           conv.ask(new BasicCard({
             text:'In order to give me access to **Read** your Youtube data',
             buttons: new Button({
-              title: 'Go to this link...',
+              title: 'Go to this link ...',
               url: `${url}`
             })
           })); 
         } else {
           // if access granted : normal flow
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nHow may I help you...`);
+          conv.data.token = {
+            token: 'my token'
+          }
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');
@@ -170,7 +173,7 @@ agent.intent('demo', (conv) => {
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
-  conv.ask('In order to get connected please say Sign In');
+  conv.ask(`In order to get connected please say Sign In ${conv.data.token.token}`);
 })
 
 app.post('/', agent);

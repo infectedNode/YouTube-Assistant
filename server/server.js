@@ -47,11 +47,11 @@ const oauth2Client = new google.auth.OAuth2(
   YOUR_REDIRECT_URL
 );  
 
-// const service = google.youtube('v3');
+const service = google.youtube('v3');
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
-    conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.  \nYour video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+    conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
     conv.ask(new BasicCard({
       image: new Image({
         url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
@@ -65,7 +65,8 @@ agent.intent('Default Welcome Intent', (conv) => {
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
-  
+    conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+    conv.ask('In order to get connected please say Sign In');
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
@@ -103,9 +104,6 @@ agent.intent('Default Welcome Intent', (conv) => {
         } else {
           // if access granted : normal flow
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nHow may I help you...`);
-          conv.data.token = {
-            token: 'my token'
-          }
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');
@@ -159,7 +157,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
 });
 
 agent.intent('demo', (conv) => {
-  conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.  \nYour video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+  conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
   conv.ask(new BasicCard({
     image: new Image({
       url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
@@ -173,7 +171,8 @@ agent.intent('demo', (conv) => {
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
-  conv.ask(`In order to get connected please say Sign In ${conv.data.token.token}`);
+  conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
+  conv.ask('In order to get connected please say Sign In');
 })
 
 app.post('/', agent);

@@ -65,8 +65,7 @@ agent.intent('Default Welcome Intent', (conv) => {
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
-    conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
-    conv.ask('In order to get connected please say Sign In');
+    conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes  \nIn order to get connected please say Sign In');
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
@@ -171,8 +170,7 @@ agent.intent('demo', (conv) => {
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
-  conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes');
-  conv.ask('In order to get connected please say Sign In');
+  conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes  \nIn order to get connected please say Sign In');
 })
 
 app.post('/', agent);

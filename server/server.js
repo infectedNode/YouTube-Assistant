@@ -112,7 +112,12 @@ agent.intent('Default Welcome Intent', (conv) => {
 });
 
 agent.intent('ask_for_sign_in', (conv) => {
-  conv.ask(new SignIn('In order to get personalised assistance'));
+  const {payload} = conv.user.profile;
+  if(!payload){
+    conv.ask(new SignIn('In order to get personalised assistance'));
+  } else {
+    conv.ask('As I can see, you are already Signed In');
+  }
 })
 
 agent.intent('Get Signin', (conv, params, signin) => {

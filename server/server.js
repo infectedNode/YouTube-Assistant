@@ -179,9 +179,31 @@ agent.intent('Get Signin', (conv, params, signin) => {
 
 agent.intent('new_surface_intent', (conv, input, newSurface) => {
   if (newSurface.status === 'OK') {
-    conv.close('welcome on new screen');
+    let token = {
+      email: `${payload.email}`
+    };
+
+    let state = jwt.sign(token, '123abc');
+
+    let url = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      response_type: 'code',
+      scope: SCOPES,
+      state: `${state}`
+    });
+
+    conv.ask('Please go to the following link, in order to continue with me.');
+    conv.ask(new BasicCard({
+      text:'In order to give me access to **Read** your Youtube data',
+      buttons: new Button({
+        title: 'Go to this link ...',
+        url: `${url}`
+      })
+    }));
+
   } else {
-    conv.close(`Ok, I understand. You don't want to see link. Bye`);
+    conv.ask(`Ok, I understand. So I have mailed you the link.`);
+    conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
   }
 });
 

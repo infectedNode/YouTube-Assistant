@@ -77,9 +77,7 @@ agent.intent('Default Welcome Intent', (conv) => {
         let data = doc.data();
         // check for youtube access token
         if(data.token === null) {
-          // if access not granted : ask for youtube access and provide link
-          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.`);
-          
+          // if access not granted : ask for youtube access and provide link          
           let token = {
             email: `${payload.email}`
           };
@@ -100,6 +98,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
 
           if(hasScreen && hasWebBrowser) {
+            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.`);
             conv.ask('Please go to the following link, in order to continue with me.');
             conv.ask(new BasicCard({
               text:'In order to give me access to **Read** your Youtube data',
@@ -109,7 +108,7 @@ agent.intent('Default Welcome Intent', (conv) => {
               })
             }));
           } else if(screenAvailable && browserAvailable) {
-            let context = 'To provide you a YouTube Access link';
+            let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask('But you don\'t have a Web browser on this device.');

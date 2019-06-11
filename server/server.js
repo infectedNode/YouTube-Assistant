@@ -130,7 +130,7 @@ agent.intent('Default Welcome Intent', (conv) => {
             conv.close('Please go to that link and give me access to Read your Youtube data, in order to continue with me.');
             return transporter.sendMail({
               to: `${payload.email}`,
-              from: 'MyRedChannel@gmail.com',
+              from: 'youtube-assistant.herokuapp.com',
               subject: 'YouTube Access Link',
               html: `<h1>Pleas go to this link, in order to continue with me.</h1>
               <a href="${url}">YouTube Access Link</a>

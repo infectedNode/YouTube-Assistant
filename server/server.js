@@ -57,17 +57,6 @@ const transporter =  nodemailer.createTransport(sendgridTransport({
 
 const service = google.youtube('v3');
 
-const emailCreater = (email,url) => {
-  transporter.sendMail({
-    to: email,
-    from: 'MyRedChannel@gmail.com',
-    subject: 'YouTube Access Link',
-    html: `<h1>Pleas go to this link, in order to continue with me.</h1>
-    <a href="${url}">YouTube Access Link</a>
-    `
-  }).catch(err => console.log(err));
-}
-
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
     conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
@@ -138,8 +127,15 @@ agent.intent('Default Welcome Intent', (conv) => {
           } else {
             // send link via email
             conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link.`);
-            emailCreater(payload.email, url);
             conv.close('Please go to that link and give me access to Read your Youtube data, in order to continue with me.');
+            return transporter.sendMail({
+              to: `${payload.email}`,
+              from: 'MyRedChannel@gmail.com',
+              subject: 'YouTube Access Link',
+              html: `<h1>Pleas go to this link, in order to continue with me.</h1>
+              <a href="${url}">YouTube Access Link</a>
+              `
+            }).catch(e => console.log(e));
           }
         } else {
           // if access granted : normal flow

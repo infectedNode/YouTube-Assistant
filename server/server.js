@@ -65,7 +65,7 @@ const emailCreater = (email,url) => {
     html: `<h1>Pleas go to this link, in order to continue with me.</h1>
     <a href="${url}">YouTube Access Link</a>
     `
-  })
+  }).catch(err => console.log(err));
 }
 
 agent.intent('Default Welcome Intent', (conv) => {

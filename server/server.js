@@ -107,7 +107,7 @@ agent.intent('Default Welcome Intent', (conv) => {
                 url: `${url}`
               })
             }));
-          } else if(screenAvailable && browserAvailable) {
+          } else if(!screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];

@@ -91,6 +91,8 @@ agent.intent('Default Welcome Intent', (conv) => {
             state: `${state}`
           });
 
+          conv.data.url = `${url}`;
+
           let hasScreen = conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
           let hasWebBrowser = conv.surface.capabilities.has('actions.capability.WEB_BROWSER');
 
@@ -179,25 +181,12 @@ agent.intent('Get Signin', (conv, params, signin) => {
 
 agent.intent('new_surface_intent', (conv, input, newSurface) => {
   if (newSurface.status === 'OK') {
-    // let token = {
-    //   email: `${payload.email}`
-    // };
-
-    // let state = jwt.sign(token, '123abc');
-
-    // let url = oauth2Client.generateAuthUrl({
-    //   access_type: 'offline',
-    //   response_type: 'code',
-    //   scope: SCOPES,
-    //   state: `${state}`
-    // });
-
     conv.ask('Please go to the following link, in order to continue with me.');
-    conv.close(new BasicCard({
+    conv.ask(new BasicCard({
       text:'In order to give me access to **Read** your Youtube data',
       buttons: new Button({
         title: 'Go to this link ...',
-        url: `https://google.com`
+        url: `${conv.data.url}`
       })
     }));
 

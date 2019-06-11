@@ -193,13 +193,13 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
     // });
 
     conv.ask('Please go to the following link, in order to continue with me.');
-    // conv.close(new BasicCard({
-    //   text:'In order to give me access to **Read** your Youtube data',
-    //   buttons: new Button({
-    //     title: 'Go to this link ...',
-    //     url: `${url}`
-    //   })
-    // }));
+    conv.close(new BasicCard({
+      text:'In order to give me access to **Read** your Youtube data',
+      buttons: new Button({
+        title: 'Go to this link ...',
+        url: `https://google.com`
+      })
+    }));
 
   } else {
     conv.ask(`Ok, I understand. So I have mailed you the link.`);

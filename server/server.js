@@ -97,7 +97,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           let screenAvailable = conv.available.surfaces.capabilities.has('actions.capability.SCREEN_OUTPUT');
           let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
 
-          if(!hasScreen && !hasWebBrowser) {
+          if(hasScreen && hasWebBrowser) {
             conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.`);
             conv.ask('Please go to the following link, in order to continue with me.');
             conv.ask(new BasicCard({
@@ -107,14 +107,14 @@ agent.intent('Default Welcome Intent', (conv) => {
                 url: `${url}`
               })
             }));
-          } else if(!screenAvailable && browserAvailable) {
+          } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask(new NewSurface({context, notification, capabilities}));
-          } else if(hasScreen && hasWebBrowser){
+          } else {
             // send link via email
-            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link`);
+            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link.`);
             conv.close('Please go to that link and give me access to Read your Youtube data, in order to continue with me.');
           }
         } else {

@@ -16,6 +16,8 @@
     "firebase-admin": "^8.0.0",
     "google-auth-library": "^4.1.0",
     "googleapis": "^40.0.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.2.1",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   }
 }

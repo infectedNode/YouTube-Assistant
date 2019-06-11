@@ -11,6 +11,8 @@ const {
 } = require('actions-on-google');  
 const {google} = require('googleapis');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 const bodyParser = require('body-parser');
 
 var app = express();
@@ -47,7 +49,24 @@ const oauth2Client = new google.auth.OAuth2(
   YOUR_REDIRECT_URL
 );  
 
+const transporter =  nodemailer.createTransport(sendgridTransport({
+  auth: {
+  api_key: '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'    
+  }
+}));
+
 const service = google.youtube('v3');
+
+const emailCreater = (email,url) => {
+  transporter.sendMail({
+    to: email,
+    from: 'MyRedChannel@gmail.com',
+    subject: 'YouTube Access Link',
+    html: `<h1>Pleas go to this link, in order to continue with me.</h1>
+    <a href="${url}">YouTube Access Link</a>
+    `
+  })
+}
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
@@ -70,9 +89,9 @@ agent.intent('Default Welcome Intent', (conv) => {
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
-      conv.ask('Hey welcome back!  \nAs I can see you are not Signed In ');
+      conv.ask('Hey, welcome back to your YouTube Assistant. \nAs I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
-      conv.ask(new Suggestions(['Sign In','Demo']));
+      conv.ask(new Suggestions(['Sign In','Demo','Help']));
     } else {
       // make a get(payload.email) request to the database   
       return db.collection('users').doc(`${payload.email}`).get().then((doc) => {
@@ -101,8 +120,8 @@ agent.intent('Default Welcome Intent', (conv) => {
           let screenAvailable = conv.available.surfaces.capabilities.has('actions.capability.SCREEN_OUTPUT');
           let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
 
-          if(hasScreen && hasWebBrowser) {
-            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.`);
+          if(!hasScreen && hasWebBrowser) {
+            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.`);
             conv.ask('Please go to the following link, in order to continue with me.');
             conv.close(new BasicCard({
               text:'In order to give me access to **Read** your Youtube data',
@@ -111,19 +130,20 @@ agent.intent('Default Welcome Intent', (conv) => {
                 url: `${url}`
               })
             }));
-          } else if(screenAvailable && browserAvailable) {
-            let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
+          } else if(!screenAvailable && browserAvailable) {
+            let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask(new NewSurface({context, notification, capabilities}));
           } else {
             // send link via email
-            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link.`);
+            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link.`);
+            emailCreater(payload.email, url);
             conv.close('Please go to that link and give me access to Read your Youtube data, in order to continue with me.');
           }
         } else {
           // if access granted : normal flow
-          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nHow may I help you...`);
+          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nHow may I help you...`);
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');

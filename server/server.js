@@ -78,7 +78,7 @@ agent.intent('Default Welcome Intent', (conv) => {
         // check for youtube access token
         if(data.token === null) {
           // if access not granted : ask for youtube access and provide link
-          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nPlease go to the following link, in order to continue with me.`);
+          conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.`);
           
           let token = {
             email: `${payload.email}`
@@ -93,13 +93,32 @@ agent.intent('Default Welcome Intent', (conv) => {
             state: `${state}`
           });
 
-          conv.ask(new BasicCard({
-            text:'In order to give me access to **Read** your Youtube data',
-            buttons: new Button({
-              title: 'Go to this link ...',
-              url: `${url}`
-            })
-          })); 
+          let hasScreen = conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
+          let hasWebBrowser = conv.surface.capabilities.has('actions.capability.WEB_BROWSER');
+
+          let screenAvailable = conv.available.surfaces.capabilities.has('actions.capability.SCREEN_OUTPUT');
+          let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
+
+          if(hasScreen && hasWebBrowser) {
+            conv.ask('Please go to the following link, in order to continue with me.');
+            conv.ask(new BasicCard({
+              text:'In order to give me access to **Read** your Youtube data',
+              buttons: new Button({
+                title: 'Go to this link ...',
+                url: `${url}`
+              })
+            }));
+          } else if(screenAvailable && browserAvailable) {
+            let context = 'To provide you a YouTube Access link';
+            let notification = 'YouTube Access Link';
+            let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
+            conv.ask('But you don\'t have a Web browser on this device.');
+            conv.ask(new NewSurface({context, notification, capabilities}));
+          } else {
+            // send link via email
+            conv.ask('But you don\'t have a Web browser on this device. So I have mailed you the link');
+            conv.close('Please go to that link and give me access to **Read** your Youtube data, in order to continue with me.');
+          }
         } else {
           // if access granted : normal flow
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nHow may I help you...`);
@@ -158,6 +177,14 @@ agent.intent('Get Signin', (conv, params, signin) => {
     } else {
       conv.close('Getting Signed In, is an esential part to continue.  \nAnd remember you can always ask for a demo...');
     }
+});
+
+agent.intent('new_surface_intent', (conv, input, newSurface) => {
+  if (newSurface.status === 'OK') {
+    conv.close('welcome on new screen');
+  } else {
+    conv.close(`Ok, I understand. You don't want to see link. Bye`);
+  }
 });
 
 agent.intent('demo', (conv) => {

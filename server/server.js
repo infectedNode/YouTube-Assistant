@@ -110,7 +110,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
-            let capabilities = ['actions.capability.SCREEN_OUTPUT'];
+            let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask(new NewSurface({context, notification, capabilities}));
           } else {
             // send link via email
@@ -193,13 +193,13 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
     });
 
     conv.ask('Please go to the following link, in order to continue with me.');
-    conv.close(new BasicCard({
-      text:'In order to give me access to **Read** your Youtube data',
-      buttons: new Button({
-        title: 'Go to this link ...',
-        url: `${url}`
-      })
-    }));
+    // conv.close(new BasicCard({
+    //   text:'In order to give me access to **Read** your Youtube data',
+    //   buttons: new Button({
+    //     title: 'Go to this link ...',
+    //     url: `${url}`
+    //   })
+    // }));
 
   } else {
     conv.ask(`Ok, I understand. So I have mailed you the link.`);

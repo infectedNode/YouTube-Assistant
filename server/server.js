@@ -71,6 +71,7 @@ agent.intent('Default Welcome Intent', (conv) => {
     if(!payload) {               
       conv.ask('Hey welcome back!  \nAs I can see you are not Signed In ');
       conv.ask('To continue please say Sign In');
+      conv.ask(new Suggestions(['Sign In','Demo']));
     } else {
       // make a get(payload.email) request to the database   
       return db.collection('users').doc(`${payload.email}`).get().then((doc) => {

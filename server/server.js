@@ -101,15 +101,13 @@ agent.intent('Default Welcome Intent', (conv) => {
             state: `${state}`
           });
 
-          conv.data.url = `${url}`;
-
           let hasScreen = conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
           let hasWebBrowser = conv.surface.capabilities.has('actions.capability.WEB_BROWSER');
 
           let screenAvailable = conv.available.surfaces.capabilities.has('actions.capability.SCREEN_OUTPUT');
           let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
 
-          if(!hasScreen && hasWebBrowser) {
+          if(hasScreen && hasWebBrowser) {
             conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.`);
             conv.ask('Please go to the following link, in order to continue with me.');
             conv.close(new BasicCard({
@@ -119,7 +117,7 @@ agent.intent('Default Welcome Intent', (conv) => {
                 url: `${url}`
               })
             }));
-          } else if(!screenAvailable && browserAvailable) {
+          } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
@@ -180,8 +178,6 @@ agent.intent('Get Signin', (conv, params, signin) => {
         state: `${state}`
       });
 
-      conv.data.url = `${url}`;
-
       let hasScreen = conv.surface.capabilities.has('actions.capability.SCREEN_OUTPUT');
       let hasWebBrowser = conv.surface.capabilities.has('actions.capability.WEB_BROWSER');
 
@@ -207,6 +203,14 @@ agent.intent('Get Signin', (conv, params, signin) => {
         // send link via email
         conv.ask(`I got your account details.  \nNow one last step left.  \nTo get authorised from youtube.  \nAs you don\'t have a Web browser on this device. So I have mailed you the link.`);
         conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
+        return transporter.sendMail({
+          to: `${payload.email}`,
+          from: 'youtube-assistant.herokuapp.com',
+          subject: 'YouTube Access Link',
+          html: `<h1>Pleas go to this link, in order to continue with me.</h1>
+          <a href="${url}">YouTube Access Link</a>
+          `
+        }).catch(e => console.log(e));
       } 
     }).catch((err) => {
       conv.close('Sorry, some error occured, please try again later');
@@ -218,18 +222,40 @@ agent.intent('Get Signin', (conv, params, signin) => {
 
 agent.intent('new_surface_intent', (conv, input, newSurface) => {
   if (newSurface.status === 'OK') {
+    const {payload} = conv.user.profile;  
+
+    let token = {
+      email: `${payload.email}`
+    };
+
+    let state = jwt.sign(token, '123abc');
+
+    let url = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      response_type: 'code',
+      scope: SCOPES,
+      state: `${state}`
+    });
     conv.ask('Please go to the following link, in order to continue with me.');
     conv.close(new BasicCard({
       text:'In order to give me access to **Read** your Youtube data',
       buttons: new Button({
         title: 'Go to this link ...',
-        url: `${conv.data.url}`
+        url: `${url}`
       })
     }));
 
   } else {
     conv.ask(`Ok, I understand. So I have mailed you the link.`);
     conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
+    return transporter.sendMail({
+      to: `${payload.email}`,
+      from: 'youtube-assistant.herokuapp.com',
+      subject: 'YouTube Access Link',
+      html: `<h1>Pleas go to this link, in order to continue with me.</h1>
+      <a href="${url}">YouTube Access Link</a>
+      `
+    }).catch(e => console.log(e));
   }
 });
 

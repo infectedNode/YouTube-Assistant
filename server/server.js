@@ -137,6 +137,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           }
         } else {
           // if access granted : normal flow
+          conv.data.token = data.token;
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nHow may I help you...`);
           conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
         }
@@ -291,11 +292,48 @@ agent.intent('demo', (conv) => {
 agent.intent('channel', (conv) => {
   const {payload} = conv.user.profile;  
   if(payload) {
-    conv.ask('Sure! But in order to identify your channel I want you to Sign In');
+    conv.ask('Sure! But in order to identify your YouTube channel I want you to Sign In');
     conv.ask('To continue please say Sign In');
     conv.ask(new Suggestions(['Sign In','Demo','Help']));
   } else {
+    let token = conv.data.token;
 
+    // set auth for the user
+    oauth2Client.setCredentials(token);
+
+    // if access token gets expired, renew it from the refresh token
+    oauth2Client.on('tokens', (tokens) => {
+      // update the database with the new access token and its new expiry date
+
+    });
+
+    // making request to youtube data api with auth
+    return service.channels.list({
+      auth: oauth2Client,
+      part: 'snippet,statistics',
+      mine: true
+    }).then((result) => {
+      let data = result.data.items[0];
+
+      conv.ask('Sure!');
+      
+      conv.ask(new BasicCard({
+        image: new Image({
+          url: data.snippet.thumbnails.high.url,
+          alt: data.snippet.title,
+        }),
+        title: data.snippet.title,
+        subtitle:  `since: **${data.snippet.publishedAt}**`,
+        text:  `statistics`,
+        buttons: new Button({
+          title: 'Link to the channel',
+          url: `https://www.youtube.com/channel/${data.id}`,
+        }),
+        display: 'CROPPED',
+      }));
+    }).catch((err) => {
+
+    });
   }
 });
 

@@ -382,7 +382,7 @@ agent.intent('video', (conv) => {
     //perform youtube data api request
     let playlistId = conv.user.storage.playlistId;
 
-    if(!playlistId) {
+    if(playlistId) {
       return service.playlistItems.list({
         auth: oauth2Client,
         part: 'snippet',

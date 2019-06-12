@@ -14,6 +14,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const bodyParser = require('body-parser');
+const moment = require('moment');
 
 var app = express();
 
@@ -324,7 +325,7 @@ agent.intent('channel', (conv) => {
           alt: data.snippet.title,
         }),
         title: data.snippet.title,
-        subtitle:  `since: ${data.snippet.publishedAt.toDateString()}`,
+        subtitle:  `since: ${moment(data.snippet.publishedAt).format("Do-MMM-YYYY")}`,
         text:  `Subscribers: ${data.statistics.subscriberCount}  \nVideos: ${data.statistics.videoCount}  \nViews: ${data.statistics.viewCount}`,
         buttons: new Button({
           title: 'Link to the channel',

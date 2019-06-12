@@ -1,23 +1,33 @@
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 
-const transporter =  nodemailer.createTransport(sendgridTransport({
-  auth: {
-  api_key: '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'    
-  }
-}));
 
-transporter.sendMail({
-  to: `${payload.email}`,
-  from: 'MyRedChannel@gmail.com',
-  subject: 'YouTube Access Link',
-  html: `<h1>Pleas go to this link, in order to continue with me.</h1>
-  <a href="${url}">YouTube Access Link</a>
-  `
-}).then(() => {
-  console.log('send...')
-}).catch(e => console.log(e));
+// date = '2013-08-03T02:00:00Z';
+
+// console.log(date.substring(0, 10));
+
+
+
+
+// const nodemailer = require('nodemailer');
+// const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+
+// const transporter =  nodemailer.createTransport(sendgridTransport({
+//   auth: {
+//   api_key: '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'    
+//   }
+// }));
+
+// transporter.sendMail({
+//   to: `${payload.email}`,
+//   from: 'MyRedChannel@gmail.com',
+//   subject: 'YouTube Access Link',
+//   html: `<h1>Pleas go to this link, in order to continue with me.</h1>
+//   <a href="${url}">YouTube Access Link</a>
+//   `
+// }).then(() => {
+//   console.log('send...')
+// }).catch(e => console.log(e));
 
 // const jwt = require('jsonwebtoken');
 

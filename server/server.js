@@ -430,7 +430,7 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         // mine: true
-        id: 'UCCLzJP8T09kuoy3OGPHNs5g'
+        id: 'UCNn6AaHharXIbkRleXGboiQ'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;

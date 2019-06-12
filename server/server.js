@@ -381,7 +381,7 @@ agent.intent('video', (conv) => {
     });
     //perform youtube data api request
     let playlistId = conv.user.storage.playlistId;
-    if(playlistId) {
+    if(!playlistId) {
 
     } else {
       return service.channels.list({
@@ -403,7 +403,7 @@ agent.intent('video', (conv) => {
           let data = videos.data.items[0];
           let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
           let title = data.snippet.title;
-          let thumbnail = data.snippet.thumbnails.high.url;
+          let thumbnail = data.snippet.thumbnails.maxres.url || data.snippet.thumbnails.standard.url || data.snippet.thumbnails.high.url;
           let videoId = data.snippet.resourceId.videoId;
           return service.videos.list({
             auth: oauth2Client,

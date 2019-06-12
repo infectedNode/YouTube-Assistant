@@ -324,7 +324,7 @@ agent.intent('channel', (conv) => {
           alt: data.snippet.title,
         }),
         title: data.snippet.title,
-        subtitle:  `since: ${data.snippet.publishedAt}`,
+        subtitle:  `since: ${data.snippet.publishedAt.toDateString()}`,
         text:  `Subscribers: ${data.statistics.subscriberCount}  \nVideos: ${data.statistics.videoCount}  \nViews: ${data.statistics.viewCount}`,
         buttons: new Button({
           title: 'Link to the channel',

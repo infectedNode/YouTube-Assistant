@@ -286,7 +286,18 @@ agent.intent('demo', (conv) => {
     conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nSo how can I help you?');
     conv.ask(new Suggestions(['Video Reports','Channel Reports','Help']));
   }
-})
+});
+
+agent.intent('channel', (conv) => {
+  const {payload} = conv.user.profile;  
+  if(payload) {
+    conv.ask('Sure! But in order to identify your channel I want you to Sign In');
+    conv.ask('To continue please say Sign In');
+    conv.ask(new Suggestions(['Sign In','Demo','Help']));
+  } else {
+
+  }
+});
 
 app.post('/', agent);
 

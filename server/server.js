@@ -357,6 +357,86 @@ agent.intent('channel', (conv) => {
   }
 });
 
+agent.intent('video', (conv) => {
+  const {payload} = conv.user.profile;  
+  if(!payload) {
+    conv.ask('Sure! But in order to identify your YouTube channel I want you to Sign In');
+    conv.ask('To continue please say Sign In');
+    conv.ask(new Suggestions(['Sign In','Demo','Help']));
+  } else {
+    let token = conv.data.token;
+
+    // set auth for the user
+    oauth2Client.setCredentials(token);
+
+    // if access token gets expired, renew it from the refresh token
+    oauth2Client.on('tokens', (tokens) => {
+      // update the database with the new access token and its new expiry date
+      let access_token = tokens.access_token;
+      let expiry_date = tokens.expiry_date;
+      db.collection('users').doc(`${payload.email}`).update({
+        'token.access_token': access_token,
+        'token.expiry_date': expiry_date
+      })
+    });
+    //perform youtube data api request
+    let playlistId = conv.user.storage.playlistId;
+    if(playlistId) {
+
+    } else {
+      return service.channels.list({
+        auth: oauth2Client,
+        part: 'contentDetails',
+        // mine: true
+        // id: 'UCNn6AaHharXIbkRleXGboiQ'
+        id: 'UCNSdjX4ry9fICqeObdZPAZQ'
+      }).then((result) => {
+        let data = result.data.items[0];
+        let playlistId = data.contentDetails.relatedPlaylists.uploads;
+        conv.user.storage.playlistId = playlistId;
+        return service.playlistItems.list({
+          auth: oauth2Client,
+          part: 'snippet',
+          maxResults: 1,
+          playlistId 
+        }).then((videos) => {
+          let data = videos.data.items[0];
+          let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
+          let title = data.snippet.title;
+          let thumbnail = data.snippet.thumbnails.high.url;
+          let videoId = data.snippet.resourceId.videoId;
+          return service.videos.list({
+            auth: oauth2Client,
+            part: 'statistics',
+            id: videoId
+          }).then((video) => {
+            let data = video.data.items[0];
+
+            conv.ask('Sure!');
+
+            conv.ask(new BasicCard({
+              image: new Image({
+                url: thumbnail,
+                alt: title,
+              }),
+              title: title,
+              subtitle: date,
+              text:  `Views : ${formatNumber(data.statistics.viewCount)}  \nLikes : ${formatNumber(data.statistics.likeCount)}  \nComments : ${formatNumber(data.statistics.commentCount)}  \nDislikes : ${formatNumber(data.statistics.dislikeCount)}`,
+              buttons: new Button({
+                title: 'Link to the Video',
+                url: `https://www.youtube.com/watch?v=${videoId}`,
+              }),
+              display: 'CROPPED',
+            }));
+
+            conv.close(`Your video  "${title}" has got :-  \n${formatNumber(data.statistics.viewCount)} Views  \n${formatNumber(data.statistics.likeCount)} Likes  \n${formatNumber(data.statistics.commentCount)} Comments and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes.`)
+          })
+        })
+      })      
+    }
+  }
+});
+
 app.post('/', agent);
 
 app.get('/oauthcallback/', (req, res) => {

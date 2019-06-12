@@ -429,7 +429,7 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         // mine: true
-        id: 'UCW75jYjikWk74lCyxeg1JVw'
+        id: 'UCW75jYjikWk74lCyxeg1JVws'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;
@@ -446,7 +446,8 @@ agent.intent('video', (conv) => {
           }          
           let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
           let title = data.snippet.title;
-          let thumbnail = data.snippet.thumbnails.high.url;
+          let imgres = data.snippet.thumbnails.maxres || data.snippet.thumbnails.standard || data.snippet.thumbnails.high;
+          let thumbnail = imgres.url;
           let videoId = data.snippet.resourceId.videoId;
           return service.videos.list({
             auth: oauth2Client,

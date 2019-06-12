@@ -151,7 +151,9 @@ agent.intent('ask_for_sign_in', (conv) => {
   if(!payload){
     conv.ask(new SignIn('In order to get personalised assistance'));
   } else {
-    conv.ask('As I can see, you are already Signed In');
+    conv.ask('I can see, you are already Signed In');
+    conv.ask('So you can ask me about your channel or video reports.  \nOr probably ask for a demo!');
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
   }
 })
 

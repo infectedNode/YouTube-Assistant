@@ -311,7 +311,8 @@ agent.intent('channel', (conv) => {
     return service.channels.list({
       auth: oauth2Client,
       part: 'snippet,statistics',
-      mine: true
+      // mine: true
+      id: 'UCNn6AaHharXIbkRleXGboiQ'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -323,7 +324,7 @@ agent.intent('channel', (conv) => {
           alt: data.snippet.title,
         }),
         title: data.snippet.title,
-        subtitle:  `since: **${data.snippet.publishedAt}**`,
+        subtitle:  `since: ${data.snippet.publishedAt}`,
         text:  `statistics`,
         buttons: new Button({
           title: 'Link to the channel',

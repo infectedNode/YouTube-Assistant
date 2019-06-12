@@ -446,7 +446,7 @@ agent.intent('video', (conv) => {
           }          
           let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
           let title = data.snippet.title;
-          let imgres = data.snippet.thumbnails.maxres || data.snippet.thumbnails.standard || data.snippet.thumbnails.high;
+          let imgres = data.snippet.thumbnails.high || data.snippet.thumbnails.standard || data.snippet.thumbnails.maxres;
           let thumbnail = imgres.url;
           let videoId = data.snippet.resourceId.videoId;
           return service.videos.list({

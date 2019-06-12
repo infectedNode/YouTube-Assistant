@@ -382,7 +382,7 @@ agent.intent('video', (conv) => {
     //perform youtube data api request
     let playlistId = conv.user.storage.playlistId;
 
-    if(playlistId) {
+    if(!playlistId) {
       return service.playlistItems.list({
         auth: oauth2Client,
         part: 'snippet',
@@ -390,6 +390,9 @@ agent.intent('video', (conv) => {
         playlistId 
       }).then((videos) => {
         let data = videos.data.items[0];
+        if(!data) {
+          return conv.close('Sorry, you have not uploaded any video yet!');
+        }
         let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
         let title = data.snippet.title;
         let thumbnail = data.snippet.thumbnails.maxres.url || data.snippet.thumbnails.standard.url || data.snippet.thumbnails.high.url;
@@ -426,9 +429,7 @@ agent.intent('video', (conv) => {
       return service.channels.list({
         auth: oauth2Client,
         part: 'contentDetails',
-        // mine: true
-        // id: 'UCNn6AaHharXIbkRleXGboiQ'
-        id: 'UCNSdjX4ry9fICqeObdZPAZQ'
+        mine: true
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;
@@ -440,6 +441,9 @@ agent.intent('video', (conv) => {
           playlistId 
         }).then((videos) => {
           let data = videos.data.items[0];
+          if(!data) {
+            return conv.close('Sorry, you have not uploaded any video yet!');
+          }          
           let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
           let title = data.snippet.title;
           let thumbnail = data.snippet.thumbnails.maxres.url || data.snippet.thumbnails.standard.url || data.snippet.thumbnails.high.url;

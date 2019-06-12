@@ -1,4 +1,12 @@
 
+let items = [];
+
+let data = items[0];
+
+if(!data) {
+    console.log('no data');
+}
+
 //UU_bJt7DbRio8fPYYQ6nMAJA
 
 // date = '2013-08-03T02:00:00Z';

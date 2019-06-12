@@ -138,6 +138,7 @@ agent.intent('Default Welcome Intent', (conv) => {
         } else {
           // if access granted : normal flow
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nHow may I help you...`);
+          conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');
@@ -283,6 +284,7 @@ agent.intent('demo', (conv) => {
     conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
   } else {
     conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nSo how can I help you?');
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Help']));
   }
 })
 

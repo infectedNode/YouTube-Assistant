@@ -291,7 +291,7 @@ agent.intent('demo', (conv) => {
 
 agent.intent('channel', (conv) => {
   const {payload} = conv.user.profile;  
-  if(payload) {
+  if(!payload) {
     conv.ask('Sure! But in order to identify your YouTube channel I want you to Sign In');
     conv.ask('To continue please say Sign In');
     conv.ask(new Suggestions(['Sign In','Demo','Help']));

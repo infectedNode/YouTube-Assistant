@@ -382,7 +382,7 @@ agent.intent('video', (conv) => {
     //perform youtube data api request
     let playlistId = conv.user.storage.playlistId;
 
-    if(playlistId) {
+    if(!playlistId) {
       return service.playlistItems.list({
         auth: oauth2Client,
         part: 'snippet',
@@ -429,7 +429,8 @@ agent.intent('video', (conv) => {
       return service.channels.list({
         auth: oauth2Client,
         part: 'contentDetails',
-        mine: true
+        // mine: true
+        id: 'UCCLzJP8T09kuoy3OGPHNs5g'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;

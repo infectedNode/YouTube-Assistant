@@ -325,13 +325,15 @@ agent.intent('channel', (conv) => {
         }),
         title: data.snippet.title,
         subtitle:  `since: ${data.snippet.publishedAt}`,
-        text:  `statistics`,
+        text:  `Subscribers: ${data.statistics.subscriberCount}  \nVideos: ${data.statistics.videoCount}  \nViews: ${data.statistics.viewCount}`,
         buttons: new Button({
           title: 'Link to the channel',
           url: `https://www.youtube.com/channel/${data.id}`,
         }),
         display: 'CROPPED',
       }));
+
+      conv.close(`Your YouTube channel "${data.snippet.title}" is currently having :-  \n${data.statistics.subscriberCount} subscribers  \n${data.statistics.videoCount} videos and  \n${data.statistics.viewCount} views`);
     }).catch((err) => {
 
     });

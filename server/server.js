@@ -221,21 +221,22 @@ agent.intent('Get Signin', (conv, params, signin) => {
 });
 
 agent.intent('new_surface_intent', (conv, input, newSurface) => {
+  const {payload} = conv.user.profile;  
+  
+  let token = {
+    email: `${payload.email}`
+  };
+
+  let state = jwt.sign(token, '123abc');
+
+  let url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    response_type: 'code',
+    scope: SCOPES,
+    state: `${state}`
+  });
+
   if (newSurface.status === 'OK') {
-    const {payload} = conv.user.profile;  
-
-    let token = {
-      email: `${payload.email}`
-    };
-
-    let state = jwt.sign(token, '123abc');
-
-    let url = oauth2Client.generateAuthUrl({
-      access_type: 'offline',
-      response_type: 'code',
-      scope: SCOPES,
-      state: `${state}`
-    });
     conv.ask('Please go to the following link, in order to continue with me.');
     conv.close(new BasicCard({
       text:'In order to give me access to **Read** your Youtube data',

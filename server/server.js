@@ -263,6 +263,8 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
 });
 
 agent.intent('demo', (conv) => {
+  const {payload} = conv.user.profile;  
+
   conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
   conv.ask(new BasicCard({
     image: new Image({
@@ -277,7 +279,11 @@ agent.intent('demo', (conv) => {
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
-  conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
+  if(!payload) {
+    conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
+  } else {
+    conv.ask('Your video  "Demo of My Red Channel" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nSo how can I help you?');
+  }
 })
 
 app.post('/', agent);

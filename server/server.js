@@ -322,8 +322,7 @@ agent.intent('channel', (conv) => {
       auth: oauth2Client,
       part: 'snippet,statistics',
       // mine: true
-      // id: 'UCNn6AaHharXIbkRleXGboiQ'
-      id: 'UCNSdjX4ry9fICqeObdZPAZQ'
+      id: 'UCLNgu_OupwoeESgtab33CCw'
     }).then((result) => {
       let data = result.data.items[0];
 

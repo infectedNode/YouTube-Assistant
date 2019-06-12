@@ -309,7 +309,12 @@ agent.intent('channel', (conv) => {
     // if access token gets expired, renew it from the refresh token
     oauth2Client.on('tokens', (tokens) => {
       // update the database with the new access token and its new expiry date
-
+      let access_token = tokens.access_token;
+      let expiry_date = tokens.expiry_date;
+      db.collection('users').doc(`${payload.email}`).update({
+        'token.access_token': access_token,
+        'token.expiry_date': expiry_date
+      })
     });
 
     // making request to youtube data api with auth
@@ -340,7 +345,13 @@ agent.intent('channel', (conv) => {
 
       conv.close(`Your YouTube channel "${data.snippet.title}" is currently having :-  \n${formatNumber(data.statistics.subscriberCount)} subscribers  \n${formatNumber(data.statistics.videoCount)} videos and  \n${formatNumber(data.statistics.viewCount)} views`);
     }).catch((err) => {
-
+      if(err.data.error.errors[0].reason === 'forbidden') {
+        conv.close('YouTube access has removed. Please get authorized to use my services');
+      } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+        conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+      } else {
+        conv.close('oops! some glitch occurred. Please try again in few seconds.');
+      }
     });
   }
 });

@@ -58,6 +58,10 @@ const transporter =  nodemailer.createTransport(sendgridTransport({
 
 const service = google.youtube('v3');
 
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
     conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
@@ -326,7 +330,7 @@ agent.intent('channel', (conv) => {
         }),
         title: data.snippet.title,
         subtitle:  `since: ${moment(data.snippet.publishedAt).format("Do MMM YYYY")}`,
-        text:  `Subscribers: ${data.statistics.subscriberCount}  \nVideos: ${data.statistics.videoCount}  \nViews: ${data.statistics.viewCount}`,
+        text:  `Subscribers: ${formatNumber(data.statistics.subscriberCount)}  \nVideos: ${formatNumber(data.statistics.videoCount)}  \nViews: ${formatNumber(data.statistics.viewCount)}`,
         buttons: new Button({
           title: 'Link to the channel',
           url: `https://www.youtube.com/channel/${data.id}`,
@@ -334,7 +338,7 @@ agent.intent('channel', (conv) => {
         display: 'CROPPED',
       }));
 
-      conv.close(`Your YouTube channel "${data.snippet.title}" is currently having :-  \n${data.statistics.subscriberCount} subscribers  \n${data.statistics.videoCount} videos and  \n${data.statistics.viewCount} views`);
+      conv.close(`Your YouTube channel "${data.snippet.title}" is currently having :-  \n${formatNumber(data.statistics.subscriberCount)} subscribers  \n${formatNumber(data.statistics.videoCount)} videos and  \n${formatNumber(data.statistics.viewCount)} views`);
     }).catch((err) => {
 
     });

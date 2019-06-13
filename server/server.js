@@ -381,6 +381,7 @@ agent.intent('video', (conv) => {
     //perform youtube data api request
     let playlistId = conv.user.storage.playlistId;
 
+    // if playlistId already known. (saves one step)
     if(!playlistId) {
       return service.playlistItems.list({
         auth: oauth2Client,
@@ -394,7 +395,8 @@ agent.intent('video', (conv) => {
         }
         let date = moment(data.snippet.publishedAt).format("Do MMM YYYY");
         let title = data.snippet.title;
-        let thumbnail = data.snippet.thumbnails.maxres.url || data.snippet.thumbnails.standard.url || data.snippet.thumbnails.high.url;
+        let imgres = data.snippet.thumbnails.maxres || data.snippet.thumbnails.standard || data.snippet.thumbnails.high;
+        let thumbnail = imgres.url;
         let videoId = data.snippet.resourceId.videoId;
         return service.videos.list({
           auth: oauth2Client,
@@ -421,10 +423,30 @@ agent.intent('video', (conv) => {
           }));
 
           conv.close(`Your video  "${title}" has got :-  \n${formatNumber(data.statistics.viewCount)} Views  \n${formatNumber(data.statistics.likeCount)} Likes  \n${formatNumber(data.statistics.commentCount)} Comments and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes.`)
-        })
-      })
+        }).catch((err) => {
+          if(err.data.error.errors[0].reason === 'forbidden') {
+            conv.close('YouTube access has removed. Please get authorized to use my services');
+          } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+            conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+          } else {
+            conv.close('oops! some glitch occurred. Please try again in few seconds.');
+          }
+        });        
+      }).catch((err) => {
+        if(err.data.error.errors[0].reason === 'forbidden') {
+          conv.user.storage.playlistId = null;
+          conv.close('YouTube access has removed. Please get authorized to use my services');
+        } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+          conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+        } else {
+          conv.user.storage.playlistId = null;
+          conv.close('oops! some glitch occurred. Please try again in few seconds.');
+        }
+      });
 
     } else {
+
+      // else when playlistId is not known.
       return service.channels.list({
         auth: oauth2Client,
         part: 'contentDetails',
@@ -474,9 +496,33 @@ agent.intent('video', (conv) => {
             }));
 
             conv.close(`Your video  "${title}" has got :-  \n${formatNumber(data.statistics.viewCount)} Views  \n${formatNumber(data.statistics.likeCount)} Likes  \n${formatNumber(data.statistics.commentCount)} Comments and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes.`)
-          })
-        })
-      })      
+          }).catch((err) => {
+            if(err.data.error.errors[0].reason === 'forbidden') {
+              conv.close('YouTube access has removed. Please get authorized to use my services');
+            } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+              conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+            } else {
+              conv.close('oops! some glitch occurred. Please try again in few seconds.');
+            }
+          });          
+        }).catch((err) => {
+          if(err.data.error.errors[0].reason === 'forbidden') {
+            conv.close('YouTube access has removed. Please get authorized to use my services');
+          } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+            conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+          } else {
+            conv.close('oops! some glitch occurred. Please try again in few seconds.');
+          }
+        });
+      }).catch((err) => {
+        if(err.data.error.errors[0].reason === 'forbidden') {
+          conv.close('YouTube access has removed. Please get authorized to use my services');
+        } else if(err.data.error.errors[0].reason === 'quotaExceeded') {
+          conv.close('Data request limit exceeded for the day. Please try again tommorow ...');
+        } else {
+          conv.close('oops! some glitch occurred. Please try again in few seconds.');
+        }
+      });            
     }
   }
 });

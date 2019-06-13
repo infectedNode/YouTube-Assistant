@@ -64,7 +64,7 @@ function formatNumber(num) {
 
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
-    conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
+    conv.ask('Hi, welcome to your YouTube Assistant.  \nI can provide latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
     conv.ask(new BasicCard({
       image: new Image({
         url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,
@@ -527,7 +527,18 @@ agent.intent('video', (conv) => {
   }
 });
 
-agent.intent('Default Fallback Intent', conv => {
+agent.intent('help', (conv) => {
+  const {payload} = conv.user.profile;
+  conv.ask('"My Red Channel" is a Google Assistant app. Where I provide latest updates about your YouTube channel or about your last video uploaded.  \nYou may say Channel Reports or Video Reports for the same, respectively.');
+  if(!payload) {
+    conv.ask('To continue please say Sign In.  \nOr you can also ask for a demo!');
+    conv.ask(new Suggestions(['Sign In','Demo']));
+  } else {
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo']));
+  }
+});
+
+agent.intent('Default Fallback Intent', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
     conv.ask(`Sorry, I didn't get that. You should say Sign In. Or you can also ask for a demo.`);

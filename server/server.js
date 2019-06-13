@@ -551,21 +551,21 @@ agent.intent('Default Fallback Intent', (conv) => {
 });
 
 agent.intent('developer', (conv) => {
-  // conv.ask(new BasicCard({
-  //   image: new Image({
-  //     url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
-  //     alt: 'shivam sharma',
-  //   }),
-  //   title: 'Shivam Sharma',
-  //   subtitle: 'An Indian Developer',
-  //   text:  `I am Developed by "Mr. Shivam Sharma". An Indian Dveloper, who has created me with Love.  \nTo get connected with him, you can find him on Instagram by the name "shivamdotcom"`,
-  //   buttons: new Button({
-  //     title: 'Connect with Me',
-  //     url: `https://www.instagram.com/shivamdotcom/`,
-  //   })
-  // }));
+  conv.ask(new BasicCard({
+    image: new Image({
+      url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,
+      alt: 'shivam sharma',
+    }),
+    title: 'Shivam Sharma',
+    subtitle: 'An Indian Developer',
+    text:  `I am Developed by "Mr. Shivam Sharma". An Indian Developer, who has created me with Love.  \nTo get connected with him, you can find him on Instagram by the name "shivamdotcom"`,
+    buttons: new Button({
+      title: 'Connect with Me',
+      url: `https://www.instagram.com/shivamdotcom/`,
+    })
+  }));
 
-  conv.ask('I am Developed by "Mr. Shivam Sharma". An Indian Dveloper, who has created me with Love');
+  conv.ask('I am Developed by "Mr. Shivam Sharma". An Indian Developer, who has created me with Love');
   conv.close('To get connected with him, you can find him on Instagram by the name "shivamdotcom"');
 });
 

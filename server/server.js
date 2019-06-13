@@ -562,7 +562,7 @@ agent.intent('developer', (conv) => {
     buttons: new Button({
       title: 'Connect with Me',
       url: `https://www.instagram.com/shivamdotcom/`,
-    }),
+    })
   }));
 
   conv.ask('I am Developed by "Mr. Shivam Sharma". An Indian Dveloper, who has created me with Love');

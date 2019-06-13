@@ -275,7 +275,7 @@ agent.intent('demo', (conv) => {
   conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
   conv.ask(new BasicCard({
     image: new Image({
-      url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280',
+      url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=753&w=1280',
       alt: 'title of the video',
     }),
     title: 'Title of the Video',

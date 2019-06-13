@@ -67,14 +67,14 @@ agent.intent('Default Welcome Intent', (conv) => {
     conv.ask('Hi, welcome to your YouTube Assistant.  \nI can give you latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
     conv.ask(new BasicCard({
       image: new Image({
-        url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
-        alt: 'shivam sharma',
+        url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,
+        alt: 'title of the video',
       }),
       title: 'Title of the Video',
-      subtitle: `08-06-2019`,
+      subtitle: `1st Jun 2019`,
       text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
       buttons: new Button({
-        title: 'Link to this video ...',
+        title: 'Link to the video',
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
@@ -275,7 +275,7 @@ agent.intent('demo', (conv) => {
   conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
   conv.ask(new BasicCard({
     image: new Image({
-      url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+      url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280',
       alt: 'title of the video',
     }),
     title: 'Title of the Video',

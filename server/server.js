@@ -275,14 +275,14 @@ agent.intent('demo', (conv) => {
   conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
   conv.ask(new BasicCard({
     image: new Image({
-      url: `https://i.ytimg.com/vi/u-zo07xOskM/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLC4DahnW-iJfKfW3m9r1HQMGiDIdQ`,
-      alt: 'shivam sharma',
+      url: './images/action-aperture-blur-2376994.jpg',
+      alt: 'title of the video',
     }),
-    title: 'Demo of My Red Channel',
-    subtitle: `08-06-2019`,
+    title: 'Title of the Video',
+    subtitle: `1st Jun 2019`,
     text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
     buttons: new Button({
-      title: 'Link to this video ...',
+      title: 'Link to the video ...',
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));

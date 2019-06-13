@@ -282,7 +282,7 @@ agent.intent('demo', (conv) => {
     subtitle: `1st Jun 2019`,
     text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
     buttons: new Button({
-      title: 'Link to the video ...',
+      title: 'Link to the video',
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
@@ -524,6 +524,18 @@ agent.intent('video', (conv) => {
         }
       });            
     }
+  }
+});
+
+agent.intent('Default Fallback Intent', conv => {
+  const {payload} = conv.user.profile;  
+  if(!payload) {
+    conv.ask(`Sorry, I didn't get that. You should say Sign In. Or you can also ask for a demo.`);
+    conv.ask(new Suggestions(['Sign In','Demo','Help']));
+  } else {
+    conv.ask(`Sorry, I didn't get that.`);
+    conv.ask('You can ask me about your channel or video reports.  \nOr probably ask for a demo!');
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
   }
 });
 

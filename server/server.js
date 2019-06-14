@@ -63,7 +63,7 @@ function formatNumber(num) {
 }
 
 agent.intent('Default Welcome Intent', (conv) => {
-  if(conv.user.last.seen) {      //First time user's
+  if(!conv.user.last.seen) {      //First time user's
     conv.ask('<speak> Hi, welcome to your YouTube Assistant.  \nI can provide latest updates <break time="200ms" /> about your YouTube channel <break time="300ms" /> or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get. </speak>');
     conv.ask('<speak> Your video  "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 Dislikes <break time="500ms" />.  \nIn order to get connected please say Sign In </speak>');
     conv.ask(new BasicCard({
@@ -113,7 +113,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           let browserAvailable = conv.available.surfaces.capabilities.has('actions.capability.WEB_BROWSER');
 
           if(hasScreen && hasWebBrowser) {
-            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.`);
+            conv.ask(`<speak> Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see <break time="200ms" /> you have not given me an access to read your YouTube data. </speak>`);
             conv.ask('Please go to the following link, in order to continue with me.');
             conv.close(new BasicCard({
               text:'In order to give me access to **Read** your Youtube data',
@@ -123,14 +123,14 @@ agent.intent('Default Welcome Intent', (conv) => {
               })
             }));
           } else if(screenAvailable && browserAvailable) {
-            let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
+            let context = `<speak> Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see <break time="200ms" /> you have not given me an access to read your YouTube data.  \nAlso <break time="200ms" /> you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link </speak>`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask(new NewSurface({context, notification, capabilities}));
           } else {
             // send link via email
-            conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device. So I have mailed you the link.`);
-            conv.close('Please go to that link and give me access to Read your Youtube data, in order to continue with me.');
+            conv.ask(`<speak> Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see <break time="200ms" /> you have not given me an access to read your YouTube data.  \nAlso <break time="200ms" /> you don\'t have a Web browser on this device. So I have mailed you the link.</speak>`);
+            conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
             return transporter.sendMail({
               to: `${payload.email}`,
               from: 'youtube-assistant.herokuapp.com',
@@ -273,6 +273,15 @@ agent.intent('demo', (conv) => {
   const {payload} = conv.user.profile;  
 
   conv.ask('For a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
+  
+  if(!payload) {
+    conv.ask('<speak> Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 dislikes <break time="500ms" />.  \nIn order to get connected, please say Sign In </speak>');
+    conv.ask(new Suggestions(['Sign In','Help']));
+  } else {
+    conv.ask('<speak> Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 dislikes <break time="500ms" />.  \nSo, how can I help you ? </speak>');
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Help']));
+  }
+
   conv.ask(new BasicCard({
     image: new Image({
       url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=753&w=1280',
@@ -286,18 +295,12 @@ agent.intent('demo', (conv) => {
       url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
     })
   }));
-  if(!payload) {
-    conv.ask('Your video  "Title of the Video" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
-  } else {
-    conv.ask('Your video  "Title of the Video" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nSo how can I help you?');
-    conv.ask(new Suggestions(['Video Reports','Channel Reports','Help']));
-  }
 });
 
 agent.intent('channel', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
-    conv.ask('Sure! But in order to identify your YouTube channel I want you to Sign In');
+    conv.ask('Sure! But in order to identify your YouTube channel, I want you to Sign In');
     conv.ask('To continue please say Sign In');
     conv.ask(new Suggestions(['Sign In','Demo','Help']));
   } else {

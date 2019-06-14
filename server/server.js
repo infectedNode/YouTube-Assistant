@@ -329,9 +329,11 @@ agent.intent('channel', (conv) => {
     }).then((result) => {
       let data = result.data.items[0];
 
-      conv.ask('Sure!');
+      conv.ask('<speak> Sure! <break time="200ms" /> </speak>');
       
-      conv.ask(new BasicCard({
+      conv.close(`<speak> Your YouTube channel " <emphasis level="moderate">${data.snippet.title}</emphasis> " is currently having <break time="200ms" /> :-  \n${formatNumber(data.statistics.subscriberCount)} Subscribers <break time="300ms" />,  \n${formatNumber(data.statistics.videoCount)} Videos <break time="300ms" /> and  \n${formatNumber(data.statistics.viewCount)} Views </speak>`);
+
+      conv.close(new BasicCard({
         image: new Image({
           url: data.snippet.thumbnails.high.url,
           alt: data.snippet.title,
@@ -342,11 +344,8 @@ agent.intent('channel', (conv) => {
         buttons: new Button({
           title: 'Link to the channel',
           url: `https://www.youtube.com/channel/${data.id}`,
-        }),
-        display: 'CROPPED',
+        })
       }));
-
-      conv.close(`Your YouTube channel "${data.snippet.title}" is currently having :-  \n${formatNumber(data.statistics.subscriberCount)} subscribers  \n${formatNumber(data.statistics.videoCount)} videos and  \n${formatNumber(data.statistics.viewCount)} views`);
     }).catch((err) => {
       if(err.data.error.errors[0].reason === 'forbidden') {
         conv.close('YouTube access has removed. Please get authorized to use my services');

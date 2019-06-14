@@ -65,7 +65,7 @@ function formatNumber(num) {
 agent.intent('Default Welcome Intent', (conv) => {
   if(conv.user.last.seen) {      //First time user's
     conv.ask('<speak>' + 'Hi, welcome to your <emphasis level="moderate">YouTube Assistant.</emphasis>  \nI can provide latest updates<break time="200ms"/> about your YouTube channel<break time="300ms"/> or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel<break time="100ms"/> "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.' + '</speak>');
-    conv.ask(`
+    conv.ask(ssml`
       <speak>
         Your video"<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms"/>:-
         10,000 Views <break time="300ms"/>,

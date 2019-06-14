@@ -65,7 +65,16 @@ function formatNumber(num) {
 agent.intent('Default Welcome Intent', (conv) => {
   if(conv.user.last.seen) {      //First time user's
     conv.ask('<speak>' + 'Hi, welcome to your <emphasis level="moderate">YouTube Assistant.</emphasis>' + '  \nI can provide latest updates <break time="200ms"/>' + ' about your YouTube channel<break time="300ms"/>' + ' or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel<break time="100ms"/>' + ' "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.' + '</speak>');
-    conv.ask('<speak>' + 'Your video<emphasis level="moderate"> "Title of the Video" </emphasis>has got :-' + '  \n<break time="200ms"/> 10,000 Views  \nc <break time="300ms"/> 5,000 Likes  \n <break time="300ms"/> 2,000 Comments  \n <break time="300ms"/> and  \n50 Dislikes.  \n <break time="500ms"/> In order to get connected please say Sign In' + '</speak>');
+    conv.ask(
+      '<speak>' + 
+      'Your video <emphasis level="moderate"> "Title of the Video" </emphasis> has got :-' + 
+      '  \n<break time="200ms"/> 10,000 Views' + 
+      '  \n<break time="300ms"/> 5,000 Likes' + 
+      '  \n<break time="300ms"/> 2,000 Comments and' + 
+      '  \n<break time="300ms"/> 50 Dislikes.' + 
+      '  \n<break time="500ms"/> In order to get connected please say Sign In' + 
+      '</speak>'
+    );
     conv.ask(new BasicCard({
       image: new Image({
         url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,

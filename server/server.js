@@ -7,7 +7,9 @@ const {
   NewSurface,
   Suggestions,
   BasicCard,
-  Button
+  Button,
+  BrowseCarousel,
+  BrowseCarouselItem
 } = require('actions-on-google');  
 const {google} = require('googleapis');
 const jwt = require('jsonwebtoken');

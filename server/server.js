@@ -407,9 +407,11 @@ agent.intent('video', (conv) => {
         }).then((video) => {
           let data = video.data.items[0];
 
-          conv.ask('Sure!');
+          conv.ask('<speak> Sure! <break time="200ms" /> </speak>');
 
-          conv.ask(new BasicCard({
+          conv.close(`<speak> Your video " <emphasis level="moderate">${title}</emphasis> " has got <break time="200ms" /> :-  \n${formatNumber(data.statistics.viewCount)} Views <break time="300ms" />,  \n${formatNumber(data.statistics.likeCount)} Likes <break time="300ms" />,  \n${formatNumber(data.statistics.commentCount)} Comments <break time="300ms" /> and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes </speak>`);
+
+          conv.close(new BasicCard({
             image: new Image({
               url: thumbnail,
               alt: title,
@@ -423,8 +425,6 @@ agent.intent('video', (conv) => {
             }),
             display: 'CROPPED',
           }));
-
-          conv.close(`Your video  "${title}" has got :-  \n${formatNumber(data.statistics.viewCount)} Views  \n${formatNumber(data.statistics.likeCount)} Likes  \n${formatNumber(data.statistics.commentCount)} Comments and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes.`)
         }).catch((err) => {
           if(err.data.error.errors[0].reason === 'forbidden') {
             conv.close('YouTube access has removed. Please get authorized to use my services');
@@ -480,9 +480,11 @@ agent.intent('video', (conv) => {
           }).then((video) => {
             let data = video.data.items[0];
 
-            conv.ask('Sure!');
+            conv.ask('<speak> Sure! <break time="200ms" /> </speak>');
 
-            conv.ask(new BasicCard({
+            conv.close(`<speak> Your video " <emphasis level="moderate">${title}</emphasis> " has got <break time="200ms" /> :-  \n${formatNumber(data.statistics.viewCount)} Views <break time="300ms" />,  \n${formatNumber(data.statistics.likeCount)} Likes <break time="300ms" />,  \n${formatNumber(data.statistics.commentCount)} Comments <break time="300ms" /> and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes </speak>`);
+  
+            conv.close(new BasicCard({
               image: new Image({
                 url: thumbnail,
                 alt: title,
@@ -496,8 +498,6 @@ agent.intent('video', (conv) => {
               }),
               display: 'CROPPED',
             }));
-
-            conv.close(`Your video  "${title}" has got :-  \n${formatNumber(data.statistics.viewCount)} Views  \n${formatNumber(data.statistics.likeCount)} Likes  \n${formatNumber(data.statistics.commentCount)} Comments and  \n${formatNumber(data.statistics.dislikeCount)} Dislikes.`)
           }).catch((err) => {
             if(err.data.error.errors[0].reason === 'forbidden') {
               conv.close('YouTube access has removed. Please get authorized to use my services');
@@ -531,7 +531,7 @@ agent.intent('video', (conv) => {
 
 agent.intent('help', (conv) => {
   const {payload} = conv.user.profile;
-  conv.ask('"My Red Channel" is a Google Assistant app. Where I provide latest updates about your YouTube channel or about your last video uploaded.  \nYou may say Channel Reports or Video Reports for the same, respectively.');
+  conv.ask('<speak> "My Red Channel" is a Google Assistant app. Where I provide latest updates <break time="200ms" /> about your YouTube channel <break time="300ms" /> or about your last video uploaded.  \nYou may say Channel Reports or Video Reports for the same, respectively. </speak>');
   if(!payload) {
     conv.ask('To continue please say Sign In.  \nOr you can also ask for a demo!');
     conv.ask(new Suggestions(['Sign In','Demo']));
@@ -555,7 +555,7 @@ agent.intent('Default Fallback Intent', (conv) => {
 
 agent.intent('developer', (conv) => {
 
-  conv.ask('I am Developed by "Mr. Shivam Sharma". An Indian Developer, who has created me with Love');
+  conv.ask('<speak> I am Developed by "Mr Shivam Sharma". <break time="200ms" /> An Indian Developer, who has created me <prosody rate="slow">with Love.</prosody> </speak>');
 
   conv.ask(new BasicCard({
     image: new Image({

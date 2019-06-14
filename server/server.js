@@ -123,30 +123,6 @@ agent.intent('Default Welcome Intent', (conv) => {
                 title: 'Go to this link ...',
                 url: `${url}`
               })
-            }));
-            conv.close(new BrowseCarousel({
-              items: [
-                new BrowseCarouselItem({
-                  title: 'Title of item 1',
-                  url: 'google.com',
-                  description: 'Description of item 1',
-                  image: new Image({
-                    url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
-                    alt: 'Image alternate text',
-                  }),
-                  footer: 'Item 1 footer',
-                }),
-                new BrowseCarouselItem({
-                  title: 'Google Assistant',
-                  url: 'google.com',
-                  description: 'Google Assistant on Android and iOS',
-                  image: new Image({
-                    url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
-                    alt: 'Image alternate text',
-                  }),
-                  footer: 'More information about the Google Assistant',
-                }),
-              ],
             }));            
           } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
@@ -598,6 +574,30 @@ agent.intent('developer', (conv) => {
   }));
 
   conv.close('To get connected with him, you can find him on Instagram by the name "shivamdotcom"');
+  conv.close(new BrowseCarousel({
+    items: [
+      new BrowseCarouselItem({
+        title: 'Title of item 1',
+        url: 'google.com',
+        description: 'Description of item 1',
+        image: new Image({
+          url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
+          alt: 'Image alternate text',
+        }),
+        footer: 'Item 1 footer',
+      }),
+      new BrowseCarouselItem({
+        title: 'Google Assistant',
+        url: 'google.com',
+        description: 'Google Assistant on Android and iOS',
+        image: new Image({
+          url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
+          alt: 'Image alternate text',
+        }),
+        footer: 'More information about the Google Assistant',
+      }),
+    ]
+  }));
 });
 
 app.post('/', agent);

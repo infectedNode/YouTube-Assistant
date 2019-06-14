@@ -122,6 +122,30 @@ agent.intent('Default Welcome Intent', (conv) => {
                 url: `${url}`
               })
             }));
+            conv.close(new BrowseCarousel({
+              items: [
+                new BrowseCarouselItem({
+                  title: 'Title of item 1',
+                  url: 'google.com',
+                  description: 'Description of item 1',
+                  image: new Image({
+                    url: 'IMG_URL.com',
+                    alt: 'Image alternate text',
+                  }),
+                  footer: 'Item 1 footer',
+                }),
+                new BrowseCarouselItem({
+                  title: 'Google Assistant',
+                  url: 'google.com',
+                  description: 'Google Assistant on Android and iOS',
+                  image: new Image({
+                    url: 'IMG_URL_Assistant.com',
+                    alt: 'Image alternate text',
+                  }),
+                  footer: 'More information about the Google Assistant',
+                }),
+              ],
+            }));            
           } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';

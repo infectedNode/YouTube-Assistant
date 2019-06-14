@@ -65,6 +65,7 @@ function formatNumber(num) {
 agent.intent('Default Welcome Intent', (conv) => {
   if(conv.user.last.seen) {      //First time user's
     conv.ask('Hi, welcome to your YouTube Assistant.  \nI can provide latest updates about your YouTube channel or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.');
+    conv.ask('Your video  "Title of the Video" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
     conv.ask(new BasicCard({
       image: new Image({
         url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,
@@ -78,7 +79,6 @@ agent.intent('Default Welcome Intent', (conv) => {
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
-    conv.ask('Your video  "Title of the Video" has got:  \n10,000 views  \n5,000 likes  \n2,000 comments and  \n50 dislikes.  \nIn order to get connected please say Sign In');
     conv.ask(new Suggestions(['Sign In','Demo']));
   } else {                       //Old users
     const {payload} = conv.user.profile;

@@ -123,7 +123,7 @@ agent.intent('Default Welcome Intent', (conv) => {
               })
             }));
           } else if(screenAvailable && browserAvailable) {
-            let context = `<speak> Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see <break time="200ms" /> you have not given me an access to read your YouTube data.  \nAlso <break time="200ms" /> you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link </speak>`;
+            let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link`;
             let notification = 'YouTube Access Link';
             let capabilities = ['actions.capability.WEB_BROWSER','actions.capability.SCREEN_OUTPUT'];
             conv.ask(new NewSurface({context, notification, capabilities}));

@@ -322,7 +322,7 @@ agent.intent('channel', (conv) => {
       auth: oauth2Client,
       part: 'snippet,statistics',
       // mine: true
-      id: 'UCLNgu_OupwoeESgtab33CCw'
+      id: 'UCvCyIiKSCA1fHKSCOKJyjXA'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -534,6 +534,7 @@ agent.intent('help', (conv) => {
     conv.ask('To continue please say Sign In.  \nOr you can also ask for a demo!');
     conv.ask(new Suggestions(['Sign In','Demo']));
   } else {
+    conv.ask('So how may I help you ?');
     conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo']));
   }
 });

@@ -555,7 +555,7 @@ agent.intent('Default Fallback Intent', (conv) => {
 
 agent.intent('developer', (conv) => {
 
-  conv.ask('<speak> I am Developed by "Mr Shivam Sharma". <break time="200ms" /> An Indian Developer, who <prosody rate="medium">has created me with Love.</prosody> </speak>');
+  conv.ask('<speak> I am Developed by "Mr Shivam Sharma". <break time="200ms" /> An Indian Developer, who <prosody rate="slow">has created me with Love.</prosody> </speak>');
 
   conv.ask(new BasicCard({
     image: new Image({

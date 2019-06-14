@@ -68,10 +68,10 @@ agent.intent('Default Welcome Intent', (conv) => {
     conv.ask(`
       <speak>
         Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got :- <break time="200ms"/>
-        10,000 Views <break time="300ms"/>
-        5,000 Likes <break time="300ms"/>
-        2,000 Comments <break time="300ms"/> and
-        50 Dislikes. <break time="500ms"/> 
+        10,000 Views, <break time="300ms"/>
+        5,000 Likes, <break time="300ms"/>
+        2,000 Comments <break time="300ms"/> and,
+        50 Dislikes, <break time="500ms"/> 
         In order to get connected please say Sign In 
       </speak>
     `);

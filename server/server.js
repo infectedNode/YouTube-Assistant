@@ -67,12 +67,17 @@ agent.intent('Default Welcome Intent', (conv) => {
     conv.ask('<speak>' + 'Hi, welcome to your <emphasis level="moderate">YouTube Assistant.</emphasis>' + '  \nI can provide latest updates <break time="200ms"/>' + ' about your YouTube channel<break time="300ms"/>' + ' or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel<break time="100ms"/>' + ' "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get.' + '</speak>');
     conv.ask(
       '<speak>' + 
-      'Your video  <emphasis level="moderate">  "Title of the Video" </emphasis> has got :- <break time="200ms"/>  \n' + 
-      '10,000 Views <break time="300ms"/>  \n' + 
-      '5,000 Likes <break time="300ms"/>  \n' + 
-      '2,000 Comments <break time="300ms"/> and  \n' + 
-      '50 Dislikes. <break time="500ms"/>  \n' + 
-      'In order to get connected please say Sign In' + 
+      'Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got :-' +
+      '<break time="200ms"/>' + 
+      '  \n10,000 Views' +
+      '<break time="300ms"/>' + 
+      '  \n5,000 Likes' +
+      '<break time="300ms"/>' + 
+      '  \n2,000 Comments and' +
+      '<break time="300ms"/>' + 
+      '  \n50 Dislikes.' +
+      '<break time="500ms"/>' + 
+      '  \nIn order to get connected please say Sign In' + 
       '</speak>'
     );
     conv.ask(new BasicCard({

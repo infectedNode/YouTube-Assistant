@@ -129,7 +129,7 @@ agent.intent('Default Welcome Intent', (conv) => {
                   url: 'google.com',
                   description: 'Description of item 1',
                   image: new Image({
-                    url: 'IMG_URL.com',
+                    url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
                     alt: 'Image alternate text',
                   }),
                   footer: 'Item 1 footer',
@@ -139,7 +139,7 @@ agent.intent('Default Welcome Intent', (conv) => {
                   url: 'google.com',
                   description: 'Google Assistant on Android and iOS',
                   image: new Image({
-                    url: 'IMG_URL_Assistant.com',
+                    url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
                     alt: 'Image alternate text',
                   }),
                   footer: 'More information about the Google Assistant',

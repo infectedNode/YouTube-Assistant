@@ -7,9 +7,7 @@ const {
   NewSurface,
   Suggestions,
   BasicCard,
-  Button,
-  BrowseCarousel,
-  BrowseCarouselItem
+  Button
 } = require('actions-on-google');  
 const {google} = require('googleapis');
 const jwt = require('jsonwebtoken');
@@ -17,10 +15,20 @@ const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const hbs = require('hbs');
+const Hogan = require('hogan.js');
+const fs = require('fs');
 
 var app = express();
 
 app.use(bodyParser.json());
+
+app.set('view engine', 'hbs');
+
+app.use(express.static(__dirname + '/public'));
+
+const template = fs.readFileSync('./../views/email.hbs', 'utf-8');
+const compiledTemplate = Hogan.compile(template);
 
 var agent = dialogflow({
   debug: true,
@@ -264,9 +272,7 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
       to: `${payload.email}`,
       from: 'youtube-assistant.herokuapp.com',
       subject: 'YouTube Access Link',
-      html: `<h1>Pleas go to this link, in order to continue with me.</h1>
-      <a href="${url}">YouTube Access Link</a>
-      `
+      html: compiledTemplate.render({url})
     }).catch(e => console.log(e));
   }
 });
@@ -574,33 +580,15 @@ agent.intent('developer', (conv) => {
   }));
 
   conv.close('To get connected with him, you can find him on Instagram by the name "shivamdotcom"');
-  conv.close(new BrowseCarousel({
-    items: [
-      new BrowseCarouselItem({
-        title: 'Title of item 1',
-        url: 'google.com',
-        description: 'Description of item 1',
-        image: new Image({
-          url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
-          alt: 'Image alternate text',
-        }),
-        footer: 'Item 1 footer',
-      }),
-      new BrowseCarouselItem({
-        title: 'Google Assistant',
-        url: 'google.com',
-        description: 'Google Assistant on Android and iOS',
-        image: new Image({
-          url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
-          alt: 'Image alternate text',
-        }),
-        footer: 'More information about the Google Assistant',
-      }),
-    ]
-  }));
 });
 
 app.post('/', agent);
+
+app.get('/email', (req, res) => {
+  res.render('email.hbs',{
+    url: 'https://www.facebook.com'
+  });
+});
 
 app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;

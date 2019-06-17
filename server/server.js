@@ -27,7 +27,7 @@ app.set('view engine', 'hbs');
 
 app.use(express.static(__dirname + '/public'));
 
-const template = fs.readFileSync('./../views/email.hbs', 'utf-8');
+const template = fs.readFileSync('./views/email.hbs', 'utf-8');
 const compiledTemplate = Hogan.compile(template);
 
 var agent = dialogflow({

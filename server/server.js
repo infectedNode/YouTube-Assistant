@@ -270,7 +270,7 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
     conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
     return transporter.sendMail({
       to: `${payload.email}`,
-      from: 'youtube-assistant.herokuapp.com',
+      from: 'My YouTuber Channel',
       subject: 'YouTube Access Link',
       html: compiledTemplate.render({url})
     }).catch(e => console.log(e));

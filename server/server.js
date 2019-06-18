@@ -270,7 +270,7 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
     conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
     return transporter.sendMail({
       to: `${payload.email}`,
-      from: 'My YouTuber Channel',
+      from: 'my-youtuber-channel@gmail.com',
       subject: 'YouTube Access Link',
       html: compiledTemplate.render({url})
     }).catch(e => console.log(e));
@@ -333,7 +333,7 @@ agent.intent('channel', (conv) => {
       auth: oauth2Client,
       part: 'snippet,statistics',
       // mine: true
-      id: 'UCvCyIiKSCA1fHKSCOKJyjXA'
+      id: 'UCDd_VKYi6ZkjQvXuemQ2JDQ'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -461,7 +461,7 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         // mine: true
-        id: 'UCvCyIiKSCA1fHKSCOKJyjXA'
+        id: 'UCDd_VKYi6ZkjQvXuemQ2JDQ'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;
@@ -585,9 +585,13 @@ agent.intent('developer', (conv) => {
 app.post('/', agent);
 
 app.get('/email', (req, res) => {
-  res.render('email.hbs',{
-    url: 'https://www.facebook.com'
-  });
+  var url = 'https://www.youtube.com';
+  transporter.sendMail({
+    to: `shivam231198@gmail.com`,
+    from: 'email@youtube-assistant.herokuapp.com',
+    subject: 'YouTube Access Link',
+    html: compiledTemplate.render({url})
+  }).catch(e => console.log(e));
 });
 
 app.get('/oauthcallback/', (req, res) => {

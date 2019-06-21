@@ -333,7 +333,7 @@ agent.intent('channel', (conv) => {
       auth: oauth2Client,
       part: 'snippet,statistics',
       // mine: true
-      id: 'Google'
+      id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -461,7 +461,7 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         // mine: true
-        id: 'Google'
+        id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;

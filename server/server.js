@@ -461,7 +461,7 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         // mine: true
-        id: 'UCP4bf6IHJJQehibu6ai__cg'
+        id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;
@@ -484,8 +484,7 @@ agent.intent('video', (conv) => {
           return service.videos.list({
             auth: oauth2Client,
             part: 'statistics',
-            // id: videoId
-            id: '6GMs_S3XIys'
+            id: videoId
           }).then((video) => {
             let data = video.data.items[0];
 

@@ -1,11 +1,39 @@
+// const pyramid = (h) => {
+//     let max = (h * 2) - 1;
+//     for (let i = 1; i <= max; i += 2) {
+//         let dif = max - i;
+//         let sideSpace = dif / 2;
+//         let row = "";
+//         for (let j = 0; j < (sideSpace + i); j++) {
+//             if(j < sideSpace) {
+//                 row = row.concat(" ");
+//                 continue;
+//             }
+//             row = row.concat("|");
+//         }
+//         console.log(row);
+//     }
+// }
+// // pyramid(4);
+// let x = 0;
 
-let items = [];
+// setInterval(() => {
+//     pyramid(x);
+//     x++;    
+// }, 10);
 
-let data = items[0];
 
-if(!data) {
-    console.log('no data');
-}
+
+
+
+
+// let items = [];
+
+// let data = items[0];
+
+// if(!data) {
+//     console.log('no data');
+// }
 
 //UU_bJt7DbRio8fPYYQ6nMAJA
 

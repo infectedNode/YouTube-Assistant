@@ -78,7 +78,7 @@ agent.intent('Default Welcome Intent', (conv) => {
     conv.ask('<speak> Your video  "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 Dislikes <break time="500ms" />.  \nIn order to get connected please say Sign In </speak>');
     conv.ask(new BasicCard({
       image: new Image({
-        url: `https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=853&w=1280`,
+        url: `https://youtube-assistant.herokuapp.com/images/demo.jpg`,
         alt: 'title of the video',
       }),
       title: 'Title of the Video',
@@ -292,7 +292,7 @@ agent.intent('demo', (conv) => {
 
   conv.ask(new BasicCard({
     image: new Image({
-      url: 'https://images.pexels.com/photos/2376994/pexels-photo-2376994.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=753&w=1280',
+      url: 'https://youtube-assistant.herokuapp.com/images/demo.jpg',
       alt: 'title of the video',
     }),
     title: 'Title of the Video',
@@ -582,7 +582,11 @@ agent.intent('developer', (conv) => {
   conv.close('To get connected with him, you can find him on Instagram by the name "shivamdotcom"');
 });
 
-app.post('/', agent);
+app.get('/', (req, res) => {
+  res.render('home.hbs');
+});
+
+app.post('/agent', agent);
 
 app.get('/email', (req, res) => {
   var url = 'https://www.youtube.com';

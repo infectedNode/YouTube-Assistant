@@ -78,7 +78,7 @@ agent.intent('Default Welcome Intent', (conv) => {
     conv.ask('<speak> Your video  "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 Dislikes <break time="500ms" />.  \nIn order to get connected please say Sign In </speak>');
     conv.ask(new BasicCard({
       image: new Image({
-        url: `https://youtube-assistant.herokuapp.com/images/introdemo.png`,
+        url: `https://youtube-assistant.herokuapp.com/images/introdemo.jpg`,
         alt: 'title of the video',
       }),
       title: 'Title of the Video',
@@ -292,7 +292,7 @@ agent.intent('demo', (conv) => {
 
   conv.ask(new BasicCard({
     image: new Image({
-      url: 'https://youtube-assistant.herokuapp.com/images/introdemo.png',
+      url: 'https://youtube-assistant.herokuapp.com/images/introdemo.jpg',
       alt: 'title of the video',
     }),
     title: 'Title of the Video',

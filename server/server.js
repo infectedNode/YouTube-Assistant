@@ -626,7 +626,7 @@ app.get('/oauthcallback/', (req, res) => {
   } else if(state && (error === 'access_denied')) {
     res.send('some error occured or probably access not given');
   } else {
-    res.send('your are not authorized to this page');
+    res.redirect('/');
   }
 });
 

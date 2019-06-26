@@ -332,8 +332,8 @@ agent.intent('channel', (conv) => {
     return service.channels.list({
       auth: oauth2Client,
       part: 'snippet,statistics',
-      // mine: true
-      id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
+      mine: true
+      // id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -460,8 +460,8 @@ agent.intent('video', (conv) => {
       return service.channels.list({
         auth: oauth2Client,
         part: 'contentDetails',
-        // mine: true
-        id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
+        mine: true
+        // id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;

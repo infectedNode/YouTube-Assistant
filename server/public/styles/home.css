@@ -44,6 +44,10 @@ header .logo img {
     opacity: .8;
 }
 
+header .logo:hover img {
+    opacity: 1;
+}
+
 header .syntax {
     position: absolute;
     top: 17rem;

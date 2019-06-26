@@ -567,7 +567,7 @@ agent.intent('developer', (conv) => {
 
   conv.ask(new BasicCard({
     image: new Image({
-      url: 'https://technojam.tech/images/team/33-ShivamSharma.jpeg',
+      url: 'https://youtube-assistant.herokuapp.com/images/ShivamSharma.jpg',
       alt: 'shivam sharma',
     }),
     title: 'Shivam Sharma',

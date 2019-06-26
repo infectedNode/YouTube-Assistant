@@ -392,7 +392,7 @@ agent.intent('video', (conv) => {
     let playlistId = conv.user.storage.playlistId;
 
     // if playlistId already known. (saves one step)
-    if(!playlistId) {
+    if(playlistId) {
       return service.playlistItems.list({
         auth: oauth2Client,
         part: 'snippet',

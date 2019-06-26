@@ -79,11 +79,12 @@ let x = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbTIzMTE5OEBnb
 
 jwt.verify(x, '123abc', function(err, result) {
     if(err) {
-        return console.log(err);
+        return ;//console.log(err);
     }
     console.log(result);
 })
 
+console.log('hi');
 
 // const admin = require('firebase-admin');
 // var serviceAccount = require('./../serviceAccountKey.json');

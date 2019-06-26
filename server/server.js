@@ -605,10 +605,12 @@ app.get('/oauthcallback/', (req, res) => {
   var error = req.query.error;
 
   if(state && code && !error) {
-    jwt.verify(state, '123abc', function(err, {email}) {
+    jwt.verify(state, '123abc', (err, decoded) => {
       if(err) {
         return res.send('error occured in the process');
       }
+
+      let {email} = decoded;
       db.collection('users').doc(`${email}`).get().then((doc) => {
         if(!doc.exists){
           return res.send('Account does not exists ...');

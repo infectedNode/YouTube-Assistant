@@ -65,23 +65,24 @@
 //   console.log('send...')
 // }).catch(e => console.log(e));
 
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
-// var token = {
-//   email: 'shivam231198@gmail.com'
-// };
+var token = {
+  email: 'shivam231198@gmail.com'
+};
 
-// // var state = jwt.sign(token, '123abc');
-// // console.log(state);
+// var state = jwt.sign(token, '123abc');
+// console.log(state);
 
-// let x = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbTIzMTE5OEBnbWFpbC5jb20iLCJpYXQiOjE1NTk5Mjc1MDh9.GGr1QyB-cfkIBaGzo_2XSLbpTE9HIQ0XJBJaKr39NN0';
+let x = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbTIzMTE5OEBnbWFpbC5jb20iLCJpYXQiOjE1NTk5Mjc1MDh9.GGr1QyB-cfkIBaGzo_2XSLbpTE9HIQ0XJBJaKr39NN0';
 
 
-// jwt.verify(x, '123abc').then(data => {
-//   console.log(data);
-// }).catch(err => {
-//   console.log(err);
-// });
+jwt.verify(x, '123abc', function(err, result) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log(result);
+})
 
 
 // const admin = require('firebase-admin');

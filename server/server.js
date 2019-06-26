@@ -605,23 +605,27 @@ app.get('/oauthcallback/', (req, res) => {
   var error = req.query.error;
 
   if(state && code && !error) {
-    let {email} = jwt.verify(state, '123abc');
-    db.collection('users').doc(`${email}`).get().then((doc) => {
-      if(!doc.exists){
-        return res.send('Account does not exists ...');
+    jwt.verify(state, '123abc', function(err, {email}) {
+      if(err) {
+        return res.send('error occured in the process');
       }
-      let data = doc.data();
-      if(data.token !== null) {
-        return res.send('Access to this account already exists');
-      }
-      oauth2Client.getToken(code).then((result) => {
-        let token = result.tokens;
-        db.collection('users').doc(`${email}`).update({token}).then(() => {
-          res.send('Access granted Succesfully ...');
+      db.collection('users').doc(`${email}`).get().then((doc) => {
+        if(!doc.exists){
+          return res.send('Account does not exists ...');
+        }
+        let data = doc.data();
+        if(data.token !== null) {
+          return res.send('Access to this account already exists');
+        }
+        oauth2Client.getToken(code).then((result) => {
+          let token = result.tokens;
+          db.collection('users').doc(`${email}`).update({token}).then(() => {
+            res.send('Access granted Succesfully ...');
+          });
         });
+      }).catch((err) => {
+        res.send('error getting the document' + err);
       });
-    }).catch((err) => {
-      res.send('error getting the document' + err);
     });
   } else if(state && (error === 'access_denied')) {
     res.send('some error occured or probably access not given');

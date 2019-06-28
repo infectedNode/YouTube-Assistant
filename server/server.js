@@ -48,8 +48,8 @@ db.settings({
   timestampsInSnapshots: true
 });
 
-const YOUR_CLIENT_ID = "122184330678-3557i6676ekrctmr3r6jom5a5vb27gej.apps.googleusercontent.com";
-const YOUR_CLIENT_SECRET = "lEshPCDKSzkDeAL45xormMd8";
+const YOUR_CLIENT_ID = "122184330678-f53khams6c2s2hfk3hk3j2oj0bknkdcu.apps.googleusercontent.com";
+const YOUR_CLIENT_SECRET = "o7l7mXTSbBBckLbSYzp0WEO8";
 const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
 // const YOUR_REDIRECT_URL = "http://localhost:2000/oauthcallback/";
 const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];

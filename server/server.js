@@ -131,13 +131,6 @@ agent.intent('Default Welcome Intent', (conv) => {
                 title: 'Go to this link ...',
                 url: `${url}`
               })
-            })); 
-            conv.close(new BasicCard({
-              text:'To know more about the application, you may visit our website',
-              buttons: new Button({
-                title: 'Visit Website',
-                url: "https://youtube-assistant.herokuapp.com/"
-              })
             }));
           } else if(screenAvailable && browserAvailable) {
             let context = `Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see you have not given me an access to read your YouTube data.  \nAlso you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link.`;
@@ -219,13 +212,6 @@ agent.intent('Get Signin', (conv, params, signin) => {
             title: 'Go to this link ...',
             url: `${url}`
           })
-        }));
-        conv.close(new BasicCard({
-          text:'To know more about the application, you may visit our website',
-          buttons: new Button({
-            title: 'Visit Website',
-            url: "https://youtube-assistant.herokuapp.com/"
-          })
         }));        
       } else if(screenAvailable && browserAvailable) {
         let context = `I got your account details.  \nNow one last step left.  \nTo get authorised from youtube.  \nAs you don\'t have a Web browser on this device.  \nTo provide you a YouTube Access link.`;
@@ -276,13 +262,6 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
       buttons: new Button({
         title: 'Go to this link ...',
         url: `${url}`
-      })
-    }));
-    conv.close(new BasicCard({
-      text:'To know more about the application, you may visit our website',
-      buttons: new Button({
-        title: 'Visit Website',
-        url: "https://youtube-assistant.herokuapp.com/"
       })
     }));
   } else {

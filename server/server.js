@@ -89,13 +89,13 @@ agent.intent('Default Welcome Intent', (conv) => {
         url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
       })
     })); 
-    conv.ask(new Suggestions(['Sign In','Demo']));
+    conv.ask(new Suggestions(['Sign In','Demo','Developer','Help']));
   } else {                       //Old users
     const {payload} = conv.user.profile;
     if(!payload) {               
       conv.ask('Hey, welcome back to your YouTube Assistant. \nAs I can see you are not Signed In.');
       conv.ask('To continue please say Sign In');
-      conv.ask(new Suggestions(['Sign In','Demo','Help']));
+      conv.ask(new Suggestions(['Sign In','Demo','Help','Developer']));
     } else {
       // make a get(payload.email) request to the database   
       return db.collection('users').doc(`${payload.email}`).get().then((doc) => {
@@ -161,7 +161,7 @@ agent.intent('Default Welcome Intent', (conv) => {
           // if access granted : normal flow
           conv.data.token = data.token;
           conv.ask(`Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nHow may I help you...`);
-          conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
+          conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help','Developer']));
         }
       }).catch((err) => {
         conv.close('Sorry, some error occured, please try again later');
@@ -177,7 +177,7 @@ agent.intent('ask_for_sign_in', (conv) => {
   } else {
     conv.ask('I can see, you are already Signed In');
     conv.ask('So you can ask me about your channel or video reports.  \nOr probably ask for a demo!');
-    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help','Developer']));
   }
 })
 
@@ -304,10 +304,10 @@ agent.intent('demo', (conv) => {
   
   if(!payload) {
     conv.ask('<speak> Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 dislikes <break time="500ms" />.  \nIn order to get connected, please say Sign In </speak>');
-    conv.ask(new Suggestions(['Sign In','Help']));
+    conv.ask(new Suggestions(['Sign In','Help','Developer']));
   } else {
     conv.ask('<speak> Your video "<emphasis level="moderate">Title of the Video</emphasis>" has got <break time="200ms" /> :-  \n10,000 Views <break time="300ms" />,  \n5,000 Likes <break time="300ms" />,  \n2,000 Comments <break time="300ms" /> and,  \n50 dislikes <break time="500ms" />.  \nSo, how can I help you ? </speak>');
-    conv.ask(new Suggestions(['Video Reports','Channel Reports','Help']));
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Help','Developer']));
   }
 
   conv.ask(new BasicCard({
@@ -562,10 +562,10 @@ agent.intent('help', (conv) => {
   conv.ask('<speak> "My YouTuber Channel" is a Google Assistant app. Where I provide latest updates <break time="200ms" /> about your YouTube channel <break time="300ms" /> or about your last video uploaded.  \nYou may say Channel Reports or Video Reports for the same, respectively. </speak>');
   if(!payload) {
     conv.ask('To continue please say Sign In.  \nOr you can also ask for a demo!');
-    conv.ask(new Suggestions(['Sign In','Demo']));
+    conv.ask(new Suggestions(['Sign In','Demo','Developer']));
   } else {
     conv.ask('So how may I help you ?');
-    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo']));
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Developer']));
   }
 });
 
@@ -573,11 +573,11 @@ agent.intent('Default Fallback Intent', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
     conv.ask(`Sorry, I didn't get that. You should say Sign In. Or you can also ask for a demo.`);
-    conv.ask(new Suggestions(['Sign In','Demo','Help']));
+    conv.ask(new Suggestions(['Sign In','Demo','Help','Developer']));
   } else {
     conv.ask(`Sorry, I didn't get that.`);
     conv.ask('You can ask me about your channel or video reports.  \nOr probably ask for a demo!');
-    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help']));
+    conv.ask(new Suggestions(['Video Reports','Channel Reports','Demo','Help','Developer']));
   }
 });
 

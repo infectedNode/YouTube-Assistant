@@ -51,7 +51,7 @@ db.settings({
 const YOUR_CLIENT_ID = "122184330678-f53khams6c2s2hfk3hk3j2oj0bknkdcu.apps.googleusercontent.com";
 const YOUR_CLIENT_SECRET = "o7l7mXTSbBBckLbSYzp0WEO8";
 const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
-// const YOUR_REDIRECT_URL = "http://localhost:2000/oauthcallback/";
+// const YOUR_REDIRECT_URL = "http://localhost:2000/oauthcallback/"; //for testing on local host
 const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 const oauth2Client = new google.auth.OAuth2(
@@ -589,14 +589,16 @@ app.get('/', (req, res) => {
 app.post('/agent', agent);
 
 app.get('/email', (req, res) => {
-  res.render('email.hbs');
-  // var url = 'https://www.youtube.com';
-  // transporter.sendMail({
-  //   to: `shivam231198@gmail.com`,
-  //   from: 'email@youtube-assistant.herokuapp.com',
-  //   subject: 'YouTube Access Link',
-  //   html: compiledTemplate.render({url})
-  // }).catch(e => console.log(e));
+  // res.render('email.hbs');
+  var url = 'https://youtube-assistant.herokuapp.com';
+  transporter.sendMail({
+    to: `shivam231198@gmail.com`,
+    from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
+    subject: 'YouTube Access Link',
+    html: compiledTemplate.render({url})
+  }).then(() => {
+    res.redirect('/');
+  }).catch(e => console.log(e));
 });
 
 app.get('/oauthcallback/', (req, res) => {

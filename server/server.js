@@ -600,6 +600,14 @@ app.get('/email', (req, res) => {
   // }).catch(e => console.log(e));
 });
 
+// app.get('/response', (req, res) => {
+//   res.render('alert.hbs', {
+//     msg1: 'Access got Denied ...',
+//     email: 'email',
+//     msg2: 'There is a problem while connecting to the database. Please try again after some time.'
+//   });
+// });
+
 app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
   var code = req.query.code; 
@@ -608,30 +616,62 @@ app.get('/oauthcallback/', (req, res) => {
   if(state && code && !error) {
     jwt.verify(state, '123abc', (err, decoded) => {
       if(err) {
-        return res.send('error occured in the process');
+        return res.render('error.hbs', {
+          msg1: 'Request got Cancelled',
+          msg2: 'There is a problem reading your URL. Please try again.'
+        });
       }
 
       let {email} = decoded;
       db.collection('users').doc(`${email}`).get().then((doc) => {
         if(!doc.exists){
-          return res.send('Account does not exists ...');
+          return res.render('error.hbs', {
+            msg1: 'Account does Not Exists ...',
+            email: email,
+            msg2: 'Your Data has been removed from the Database.'
+          });
         }
         let data = doc.data();
         if(data.token !== null) {
-          return res.send('Access to this account already exists');
+          return res.render('error.hbs', {
+            msg1: 'Access to this Account already Exists ...',
+            email: email,
+            msg2: 'You can only link one channel to a single Email Id.'
+          });
         }
         oauth2Client.getToken(code).then((result) => {
           let token = result.tokens;
           db.collection('users').doc(`${email}`).update({token}).then(() => {
-            res.send('Access granted Succesfully ...');
+            res.render('success.hbs', {
+              msg1: 'Access granted Successfully ...',
+              email: email,
+              msg2: 'Now you can go to the app and get latest updates about your YouTube Channel.'
+            });
           });
         });
       }).catch((err) => {
-        res.send('error getting the document' + err);
+        res.render('alert.hbs', {
+          msg1: 'Access got Denied ...',
+          email: email,
+          msg2: 'There is a problem while connecting to the database. Please try again after some time.'
+        });        
       });
     });
   } else if(state && (error === 'access_denied')) {
-    res.send('some error occured or probably access not given');
+    jwt.verify(state, '123abc', (err, decoded) => {
+      if(err) {
+        return res.render('error.hbs', {
+          msg1: 'Request got Cancelled',
+          msg2: 'There is a problem reading your URL. Please try again.'
+        });
+      }
+      let {email} = decoded;
+      res.render('alert.hbs', {
+        msg1: 'Access got Denied ...',
+        email: email,
+        msg2: 'In order to use this application, it is nesessary to give your YouTube Data Access.'
+      });
+    });  
   } else {
     res.redirect('/');
   }

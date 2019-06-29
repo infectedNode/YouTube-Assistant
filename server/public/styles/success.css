@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 600px;
+    background: url('/images/responseBg.png');
+    background-position: center;
+    background-size: cover;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+ 
+.card {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto;
+    max-width: 450px;
+    border-radius: 10px;
+    border: 3px solid #1cb31c;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.card .head {
+    margin: 0;
+    padding: 10px;
+    background-color: #1cb31c;
+    text-align: center;
+}
+
+.card .head p {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-size: 50px;
+}
+
+.card .msg {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.card .msg p {
+    color: #494a49;
+    padding: 0;
+    margin: 0;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.card .msg .email {
+    font-size: 20px;
+    color: #000;
+}
+
+.card .icon {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.card .icon p {
+    color: #1cb31c;
+    font-size: 60px;
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
+}
+
+.card .link {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.card .link p {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    color: #494a49;
+    margin-bottom: 10px;
+}
+
+.card .link a {
+    display: inline-block;
+    background-color: #494a49;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.card .dev {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.card .dev p {
+    font-size: 17px;
+    margin: 0;
+    padding: 0;
+    color: #494a49;
+}
+
+.card .dev p span {
+    color: #000;
+    text-decoration: underline;
+}
+
+.card .dev p a {
+    display: inline-block;
+    text-decoration: none;
+    margin-left: 10px;
+    color: #494a49;
+    text-shadow: 0 2px 3px rgba(0,0,0,.4);
+    margin-top: 10px;
+}
+
+@media(max-width: 425px) {
+    .card .head p {
+        font-size: 30px;
+    }
+    .card .msg p {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    .card .msg .email {
+        font-size: 15px;
+    }    
+    .card .icon p {
+        font-size: 50px;
+    }
+    .card .link p {
+        font-size: 18px;
+    }
+    .card .link a {
+        font-size: 18px;
+        padding: 8px;
+    }
+    .card .dev p {
+        font-size: 15px;
+    }
+}

@@ -1,13 +1,13 @@
 {
-  "name": "youtubeapidemonstration",
+  "name": "My YouTuber Channel",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Google Assistant app that provides latest updates about a YouTube channel or about last video uploaded.",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js"
   },
-  "author": "",
+  "author": "Shivam Sharma",
   "license": "ISC",
   "dependencies": {
     "actions-on-google": "^2.7.0",

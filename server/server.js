@@ -334,8 +334,7 @@ agent.intent('channel', (conv) => {
     return service.channels.list({
       auth: oauth2Client,
       part: 'snippet,statistics',
-      // mine: true
-      id: 'UCACVvrKnyz2A5k0W7bCyQAw'
+      mine: true
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -462,8 +461,7 @@ agent.intent('video', (conv) => {
       return service.channels.list({
         auth: oauth2Client,
         part: 'contentDetails',
-        // mine: true
-        id: 'UCACVvrKnyz2A5k0W7bCyQAw'
+        mine: true
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;

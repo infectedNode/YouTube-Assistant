@@ -145,9 +145,7 @@ agent.intent('Default Welcome Intent', (conv) => {
               to: `${payload.email}`,
               from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
               subject: 'YouTube Access Link',
-              html: `<h1>Pleas go to this link, in order to continue with me.</h1>
-              <a href="${url}">YouTube Access Link</a>
-              `
+              html: compiledTemplate.render({url})
             }).catch(e => console.log(e));
           }
         } else {
@@ -226,9 +224,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
           to: `${payload.email}`,
           from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
           subject: 'YouTube Access Link',
-          html: `<h1>Pleas go to this link, in order to continue with me.</h1>
-          <a href="${url}">YouTube Access Link</a>
-          `
+          html: compiledTemplate.render({url})
         }).catch(e => console.log(e));
       } 
     }).catch((err) => {
@@ -236,6 +232,13 @@ agent.intent('Get Signin', (conv, params, signin) => {
     });
     } else {
       conv.close('Getting Signed In, is an esential part to continue.  \nAnd remember you can always ask for a demo...');
+      conv.close(new BasicCard({
+        text:'To know more about the application, you may visit to our website.',
+        buttons: new Button({
+          title: 'Visit Website',
+          url: 'https://youtube-assistant.herokuapp.com/'
+        })
+      }));      
     }
 });
 
@@ -299,7 +302,7 @@ agent.intent('demo', (conv) => {
     text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
     buttons: new Button({
       title: 'Link to the video',
-      url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
+      url: 'https://youtube-assistant.herokuapp.com/'
     })
   }));
 });
@@ -332,7 +335,6 @@ agent.intent('channel', (conv) => {
       auth: oauth2Client,
       part: 'snippet,statistics',
       mine: true
-      // id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
     }).then((result) => {
       let data = result.data.items[0];
 
@@ -460,7 +462,6 @@ agent.intent('video', (conv) => {
         auth: oauth2Client,
         part: 'contentDetails',
         mine: true
-        // id: 'UC_x5XG1OV2P6uZZ5FSM9Ttw'
       }).then((result) => {
         let data = result.data.items[0];
         let playlistId = data.contentDetails.relatedPlaylists.uploads;
@@ -587,8 +588,8 @@ app.get('/', (req, res) => {
 
 app.post('/agent', agent);
 
-app.get('/email', (req, res) => {
-  res.render('email.hbs');
+// app.get('/email', (req, res) => {
+  // res.render('email.hbs');
   // var url = 'https://youtube-assistant.herokuapp.com';
   // transporter.sendMail({
   //   to: `shivam231198@gmail.com`,
@@ -598,7 +599,7 @@ app.get('/email', (req, res) => {
   // }).then(() => {
   //   res.redirect('/');
   // }).catch(e => console.log(e));
-});
+// });
 
 // app.get('/response', (req, res) => {
 //   res.render('alert.hbs', {

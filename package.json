@@ -1,5 +1,5 @@
 {
-  "name": "My YouTuber Channel",
+  "name": "my-youtuber-channel",
   "version": "1.0.0",
   "description": "A Google Assistant app that provides latest updates about a YouTube channel or about last video uploaded.",
   "main": "server.js",

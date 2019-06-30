@@ -199,7 +199,7 @@ header .google img {
     width: 100%;
     margin: 0;
     padding: 0;
-    background: url('/images/banner.png') fixed;
+    background: url('/images/banner.jpg') fixed;
     background-position: center;
     background-size: cover;
 }

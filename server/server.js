@@ -18,8 +18,11 @@ const moment = require('moment');
 const hbs = require('hbs');
 const Hogan = require('hogan.js');
 const fs = require('fs');
+const cors = require('cors');
 
 var app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 

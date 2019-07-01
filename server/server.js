@@ -678,6 +678,12 @@ app.get('/oauthcallback/', (req, res) => {
   }
 });
 
+app.get('/wakeup', (req, res) => {
+  res.json({
+    lastSeen: moment().format('h:mm:ss a, Do MMMM YYYY')
+  });
+});
+
 var port = process.env.PORT || 2000;
 
 app.listen(port, () => {

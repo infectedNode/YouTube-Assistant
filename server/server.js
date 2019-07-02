@@ -89,7 +89,7 @@ agent.intent('Default Welcome Intent', (conv) => {
       text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
       buttons: new Button({
         title: 'Link to the video',
-        url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
+        url: 'https://youtube-assistant.herokuapp.com/'
       })
     })); 
     conv.ask(new Suggestions(['Sign In','Demo','Developer','Help']));
@@ -602,14 +602,6 @@ app.post('/agent', agent);
   // }).then(() => {
   //   res.redirect('/');
   // }).catch(e => console.log(e));
-// });
-
-// app.get('/response', (req, res) => {
-//   res.render('alert.hbs', {
-//     msg1: 'Access got Denied ...',
-//     email: 'email',
-//     msg2: 'There is a problem while connecting to the database. Please try again after some time.'
-//   });
 // });
 
 app.get('/oauthcallback/', (req, res) => {

@@ -604,14 +604,6 @@ app.post('/agent', agent);
   // }).catch(e => console.log(e));
 // });
 
-// app.get('/response', (req, res) => {
-//   res.render('alert.hbs', {
-//     msg1: 'Access got Denied ...',
-//     email: 'email',
-//     msg2: 'There is a problem while connecting to the database. Please try again after some time.'
-//   });
-// });
-
 app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
   var code = req.query.code; 

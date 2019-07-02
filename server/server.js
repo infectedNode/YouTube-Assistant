@@ -89,7 +89,7 @@ agent.intent('Default Welcome Intent', (conv) => {
       text:'Views : 10,000  \nLikes : 5,000  \nComments : 2,000  \nDislikes : 50',
       buttons: new Button({
         title: 'Link to the video',
-        url: 'https://www.youtube.com/watch?v=u-zo07xOskM'
+        url: 'https://youtube-assistant.herokuapp.com/'
       })
     })); 
     conv.ask(new Suggestions(['Sign In','Demo','Developer','Help']));

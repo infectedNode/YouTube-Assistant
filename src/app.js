@@ -13,11 +13,10 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const hbs = require('hbs');
-const Hogan = require('hogan.js');
-const fs = require('fs');
 const cors = require('cors');
 
 const {db} = require('./db/firestore');
+const {transporter} = require('./email/email');
 
 var app = express();
 
@@ -28,11 +27,6 @@ app.use(bodyParser.json());
 app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
-
-
-// Email Service
-const template = fs.readFileSync('./views/email.hbs', 'utf-8');
-const compiledTemplate = Hogan.compile(template);
 
 
 // Connecting to the Dialogflow

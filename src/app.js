@@ -1,5 +1,4 @@
 const express = require('express');
-const admin = require('firebase-admin');
 const {
   dialogflow,
   Image,
@@ -20,6 +19,8 @@ const Hogan = require('hogan.js');
 const fs = require('fs');
 const cors = require('cors');
 
+const {db} = require('./db/firestore');
+
 var app = express();
 
 app.use(cors());
@@ -30,19 +31,6 @@ app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
 
-// Firestore initialization
-const serviceAccount = require('./../serviceAccountKey.json');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://assistant-a4a97.firebaseio.com"
-});
-
-var db = admin.firestore();
-
-db.settings({
-  timestampsInSnapshots: true
-});
 
 // Email Service
 const template = fs.readFileSync('./views/email.hbs', 'utf-8');

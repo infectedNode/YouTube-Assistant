@@ -10,8 +10,6 @@ const {
 } = require('actions-on-google');  
 const {google} = require('googleapis');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const hbs = require('hbs');
@@ -35,12 +33,6 @@ app.use(express.static('public'));
 // Email Service
 const template = fs.readFileSync('./views/email.hbs', 'utf-8');
 const compiledTemplate = Hogan.compile(template);
-
-const transporter =  nodemailer.createTransport(sendgridTransport({
-  auth: {
-  api_key: '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'    
-  }
-}));
 
 
 // Connecting to the Dialogflow

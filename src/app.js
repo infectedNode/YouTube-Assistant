@@ -28,16 +28,9 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'hbs');
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
-const template = fs.readFileSync('./views/email.hbs', 'utf-8');
-const compiledTemplate = Hogan.compile(template);
-
-var agent = dialogflow({
-  debug: true,
-  clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
-});
-
+// Firestore initialization
 const serviceAccount = require('./../serviceAccountKey.json');
 
 admin.initializeApp({
@@ -51,6 +44,25 @@ db.settings({
   timestampsInSnapshots: true
 });
 
+// Email Service
+const template = fs.readFileSync('./views/email.hbs', 'utf-8');
+const compiledTemplate = Hogan.compile(template);
+
+const transporter =  nodemailer.createTransport(sendgridTransport({
+  auth: {
+  api_key: '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'    
+  }
+}));
+
+
+// Connecting to the Dialogflow
+var agent = dialogflow({
+  debug: true,
+  clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
+});
+
+
+// Initialiasing YouTube API
 const YOUR_CLIENT_ID = "122184330678-f53khams6c2s2hfk3hk3j2oj0bknkdcu.apps.googleusercontent.com";
 const YOUR_CLIENT_SECRET = "o7l7mXTSbBBckLbSYzp0WEO8";
 const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
@@ -63,18 +75,14 @@ const oauth2Client = new google.auth.OAuth2(
   YOUR_REDIRECT_URL
 );  
 
-const transporter =  nodemailer.createTransport(sendgridTransport({
-  auth: {
-  api_key: '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'    
-  }
-}));
-
 const service = google.youtube('v3');
 
+// Simple format function
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
+// Welcone Intent
 agent.intent('Default Welcome Intent', (conv) => {
   if(!conv.user.last.seen) {      //First time user's
     conv.ask('<speak> Hi, welcome to your YouTube Assistant.  \nI can provide latest updates <break time="200ms" /> about your YouTube channel <break time="300ms" /> or about your last video uploaded.  \nFor a demo, let say I have a YouTube channel "shivurocks".  \nAnd I want updates about my last video uploaded. So this is what I get. </speak>');
@@ -164,6 +172,7 @@ agent.intent('Default Welcome Intent', (conv) => {
   }
 });
 
+// Ask For Sign In Intent
 agent.intent('ask_for_sign_in', (conv) => {
   const {payload} = conv.user.profile;
   if(!payload){
@@ -175,6 +184,7 @@ agent.intent('ask_for_sign_in', (conv) => {
   }
 })
 
+// Sign In Response Intent
 agent.intent('Get Signin', (conv, params, signin) => {
   if (signin.status === 'OK') {
     const {payload} = conv.user.profile;  
@@ -245,6 +255,7 @@ agent.intent('Get Signin', (conv, params, signin) => {
     }
 });
 
+// New Surface Intent
 agent.intent('new_surface_intent', (conv, input, newSurface) => {
   const {payload} = conv.user.profile;  
   
@@ -282,6 +293,7 @@ agent.intent('new_surface_intent', (conv, input, newSurface) => {
   }
 });
 
+// Demo Intent
 agent.intent('demo', (conv) => {
   const {payload} = conv.user.profile;  
 
@@ -310,6 +322,7 @@ agent.intent('demo', (conv) => {
   }));
 });
 
+// Channel Intent
 agent.intent('channel', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
@@ -370,6 +383,7 @@ agent.intent('channel', (conv) => {
   }
 });
 
+// Get Latest Video Intent
 agent.intent('video', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
@@ -540,6 +554,7 @@ agent.intent('video', (conv) => {
   }
 });
 
+// Help Intent
 agent.intent('help', (conv) => {
   const {payload} = conv.user.profile;
   conv.ask('<speak> "My YouTuber Channel" is a Google Assistant app. Where I provide latest updates <break time="200ms" /> about your YouTube channel <break time="300ms" /> or about your last video uploaded.  \nYou may say Channel Reports or Video Reports for the same, respectively. </speak>');
@@ -552,6 +567,7 @@ agent.intent('help', (conv) => {
   }
 });
 
+// Fallback Intent
 agent.intent('Default Fallback Intent', (conv) => {
   const {payload} = conv.user.profile;  
   if(!payload) {
@@ -564,6 +580,7 @@ agent.intent('Default Fallback Intent', (conv) => {
   }
 });
 
+// Developer Intent
 agent.intent('developer', (conv) => {
 
   conv.ask('<speak> I am Developed by "Mr Shivam Sharma". <break time="200ms" /> An Indian Developer, who has created me with Love. </speak>');
@@ -585,24 +602,29 @@ agent.intent('developer', (conv) => {
   conv.close('To get connected with him, you can find him on Instagram by the name "shivamdotcom"');
 });
 
+
+// ROUTES Starts Here...
+
+
+
 app.get('/', (req, res) => {
   res.render('home.hbs');
 });
 
 app.post('/agent', agent);
 
-// app.get('/email', (req, res) => {
+app.get('/email', (req, res) => {
   // res.render('email.hbs');
-  // var url = 'https://youtube-assistant.herokuapp.com';
-  // transporter.sendMail({
-  //   to: `shivam231198@gmail.com`,
-  //   from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
-  //   subject: 'YouTube Access Link',
-  //   html: compiledTemplate.render({url})
-  // }).then(() => {
-  //   res.redirect('/');
-  // }).catch(e => console.log(e));
-// });
+  var url = 'https://youtube-assistant.herokuapp.com';
+  transporter.sendMail({
+    to: `shivam231198@gmail.com`,
+    from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
+    subject: 'YouTube Access Link',
+    html: compiledTemplate.render({url})
+  }).then(() => {
+    res.redirect('/');
+  }).catch(e => console.log(e));
+});
 
 app.get('/oauthcallback/', (req, res) => {
   var state = req.query.state;
@@ -671,12 +693,6 @@ app.get('/oauthcallback/', (req, res) => {
   } else {
     res.redirect('/');
   }
-});
-
-app.get('/wakeup', (req, res) => {
-  res.json({
-    lastSeen: moment().format('h:mm:ss a, Do MMMM YYYY')
-  });
 });
 
 var port = process.env.PORT || 2000;

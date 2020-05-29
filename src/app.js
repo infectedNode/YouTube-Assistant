@@ -8,7 +8,6 @@ const {
   BasicCard,
   Button
 } = require('actions-on-google');  
-const {google} = require('googleapis');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const moment = require('moment');
@@ -28,28 +27,14 @@ app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
 
+const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
+
 
 // Connecting to the Dialogflow
 var agent = dialogflow({
   debug: true,
   clientId: '122184330678-o5i7c2s7t4sdu2scg4n5b5b7tvellnkm.apps.googleusercontent.com'
 });
-
-
-// Initialiasing YouTube API
-const YOUR_CLIENT_ID = "122184330678-f53khams6c2s2hfk3hk3j2oj0bknkdcu.apps.googleusercontent.com";
-const YOUR_CLIENT_SECRET = "o7l7mXTSbBBckLbSYzp0WEO8";
-const YOUR_REDIRECT_URL = "https://youtube-assistant.herokuapp.com/oauthcallback/";
-// const YOUR_REDIRECT_URL = "http://localhost:2000/oauthcallback/"; //for testing on local host
-const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
-
-const oauth2Client = new google.auth.OAuth2(
-  YOUR_CLIENT_ID,
-  YOUR_CLIENT_SECRET,
-  YOUR_REDIRECT_URL
-);  
-
-const service = google.youtube('v3');
 
 // Simple format function
 function formatNumber(num) {

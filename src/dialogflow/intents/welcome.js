@@ -6,6 +6,12 @@ const {
     Button
 } = require('actions-on-google'); 
 
+const {db} = require('./../../db/firestore');
+const {oauth2Client} = require('./../../youtube/youtube');
+const {sendAccessLink} = require('./../../email/sendAccessLink');
+
+const JWT_SALT = process.env.JWT_SALT;   // Salt Code for encryption
+const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 // Welcone Intent
 const welcomeIntent = (conv) => {
@@ -45,7 +51,7 @@ const welcomeIntent = (conv) => {
                         email: `${payload.email}`
                     };
       
-                    let state = jwt.sign(token, '123abc');
+                    let state = jwt.sign(token, JWT_SALT);
       
                     let url = oauth2Client.generateAuthUrl({
                         access_type: 'offline',
@@ -79,12 +85,11 @@ const welcomeIntent = (conv) => {
                         // send link via email
                         conv.ask(`<speak> Hey ${data.name} !  \nWelcome back to your YouTube Assistant.  \nAs I can see <break time="200ms" /> you have not given me an access to read your YouTube data.  \nAlso <break time="200ms" /> you don\'t have a Web browser on this device. So I have mailed you the link.</speak>`);
                         conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
-                        return transporter.sendMail({
-                            to: `${payload.email}`,
-                            from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
-                            subject: 'YouTube Access Link',
-                            html: compiledTemplate.render({url})
-                        }).catch(e => console.log(e));
+                        let emailData = {
+                            email: payload.email,
+                            url
+                        }
+                        return sendAccessLink(emailData);
                     }
                 } else {
                     // if access granted : normal flow

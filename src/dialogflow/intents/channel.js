@@ -4,6 +4,15 @@ const {
     BasicCard,
     Button
 } = require('actions-on-google'); 
+const moment = require('moment');
+
+const {db} = require('./../../db/firestore');
+const {oauth2Client, service} = require('./../../youtube/youtube');
+
+// Simple format function
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 
 // Channel Intent
 const channelIntent = (conv) => {

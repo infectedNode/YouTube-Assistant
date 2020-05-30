@@ -6,6 +6,7 @@ const {newSurfaceIntent} = require('./intents/newSurface');
 const {demoIntent} = require('./intents/demo');
 const {channelIntent} = require('./intents/channel');
 const {videoIntent} = require('./intents/video');
+const {helpIntent} = require('./intents/help');
 
 let agent = dialogflow({
     debug: true,
@@ -19,5 +20,6 @@ agent.intent('new_surface_intent', newSurfaceIntent);
 agent.intent('demo', demoIntent);
 agent.intent('channel', channelIntent);
 agent.intent('video', videoIntent);
+agent.intent('help', helpIntent);
 
 module.exports = {agent}

@@ -4,7 +4,15 @@ const {
     BasicCard,
     Button
 } = require('actions-on-google');
+const moment = require('moment');
 
+const {db} = require('./../../db/firestore');
+const {oauth2Client, service} = require('./../../youtube/youtube');
+
+// Simple format function
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 
 // Get Latest Video Intent
 const videoIntent = (conv) => {
@@ -26,7 +34,7 @@ const videoIntent = (conv) => {
             let expiry_date = tokens.expiry_date;
             db.collection('users').doc(`${payload.email}`).update({
                 'token.access_token': access_token,
-            'token.expiry_date': expiry_date
+                'token.expiry_date': expiry_date
             })
         });
         

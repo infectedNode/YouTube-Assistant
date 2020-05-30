@@ -1,12 +1,4 @@
-const {
-    dialogflow,
-    Image,
-    SignIn,
-    NewSurface,
-    Suggestions,
-    BasicCard,
-    Button
-} = require('actions-on-google'); 
+const {Suggestions} = require('actions-on-google'); 
 
 // Fallback Intent
 const fallbackIntent = (conv) => {

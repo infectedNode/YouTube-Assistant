@@ -5,6 +5,7 @@ const {
     BasicCard,
     Button
 } = require('actions-on-google'); 
+const jwt = require('jsonwebtoken');
 
 const {db} = require('./../../db/firestore');
 const {oauth2Client} = require('./../../youtube/youtube');

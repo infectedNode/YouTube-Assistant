@@ -8,8 +8,7 @@ const template = fs.readFileSync('./views/email.hbs', 'utf-8');
 const compiledTemplate = Hogan.compile(template);
 
 const sendAccessLink = (data) => {
-    let email = data.email;
-    let url = data.url;
+    let {email, url} = data;
     transporter.sendMail({
         to: email,
         from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',

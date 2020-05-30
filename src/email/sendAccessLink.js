@@ -11,7 +11,7 @@ const sendAccessLink = (data) => {
     let {email, url} = data;
     transporter.sendMail({
         to: email,
-        from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
+        from: 'Channel-Expert@youtube-assistant.herokuapp.com',
         subject: 'YouTube Access Link',
         html: compiledTemplate.render({url})
     }).catch(e => console.log(e));   

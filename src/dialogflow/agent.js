@@ -8,6 +8,7 @@ const {channelIntent} = require('./intents/channel');
 const {videoIntent} = require('./intents/video');
 const {helpIntent} = require('./intents/help');
 const {fallbackIntent} = require('./intents/fallback');
+const {developerIntent} = require('./intents/developer');
 
 let agent = dialogflow({
     debug: true,
@@ -23,5 +24,6 @@ agent.intent('channel', channelIntent);
 agent.intent('video', videoIntent);
 agent.intent('help', helpIntent);
 agent.intent('Default Fallback Intent', fallbackIntent);
+agent.intent('developer', developerIntent);
 
 module.exports = {agent}

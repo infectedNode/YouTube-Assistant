@@ -1,11 +1,11 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
-const moment = require('moment');
-const hbs = require('hbs');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const hbs = require('hbs');
+const jwt = require('jsonwebtoken');
 
 const {db} = require('./db/firestore');
+const {oauth2Client} = require('./youtube/youtube');
 const {agent} = require('./dialogflow/agent');
 
 var app = express();
@@ -19,39 +19,34 @@ app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
 
-const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
-
-// Simple format function
-function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
-
 app.get('/', (req, res) => {
   res.render('home.hbs');
 });
 
 app.post('/agent', agent);
 
-app.get('/email', (req, res) => {
-  // res.render('email.hbs');
-  var url = 'https://youtube-assistant.herokuapp.com';
-  transporter.sendMail({
-    to: `shivam231198@gmail.com`,
-    from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
-    subject: 'YouTube Access Link',
-    html: compiledTemplate.render({url})
-  }).then(() => {
-    res.redirect('/');
-  }).catch(e => console.log(e));
-});
+// app.get('/email', (req, res) => {
+//   // res.render('email.hbs');
+//   var url = 'https://youtube-assistant.herokuapp.com';
+//   transporter.sendMail({
+//     to: `shivam231198@gmail.com`,
+//     from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
+//     subject: 'YouTube Access Link',
+//     html: compiledTemplate.render({url})
+//   }).then(() => {
+//     res.redirect('/');
+//   }).catch(e => console.log(e));
+// });
 
 app.get('/oauthcallback/', (req, res) => {
-  var state = req.query.state;
-  var code = req.query.code; 
-  var error = req.query.error;
+  let state = req.query.state;
+  let code = req.query.code; 
+  let error = req.query.error;
+
+  const JWT_SALT = process.env.JWT_SALT;   // Salt Code for encryption
 
   if(state && code && !error) {
-    jwt.verify(state, '123abc', (err, decoded) => {
+    jwt.verify(state, JWT_SALT, (err, decoded) => {
       if(err) {
         return res.render('error.hbs', {
           msg1: 'Request got Cancelled',
@@ -95,7 +90,7 @@ app.get('/oauthcallback/', (req, res) => {
       });
     });
   } else if(state && (error === 'access_denied')) {
-    jwt.verify(state, '123abc', (err, decoded) => {
+    jwt.verify(state, JWT_SALT, (err, decoded) => {
       if(err) {
         return res.render('error.hbs', {
           msg1: 'Request got Cancelled',

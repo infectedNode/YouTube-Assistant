@@ -97,6 +97,6 @@ const welcomeIntent = (conv) => {
             });
         }
     }
-};
+}
 
 module.exports = {welcomeIntent};

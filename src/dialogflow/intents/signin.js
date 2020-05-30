@@ -6,6 +6,13 @@ const {
     Button
 } = require('actions-on-google'); 
 
+const {db} = require('./../../db/firestore');
+const {oauth2Client} = require('./../../youtube/youtube');
+const {sendAccessLink} = require('./../../email/sendAccessLink');
+
+const JWT_SALT = process.env.JWT_SALT;   // Salt Code for encryption
+const SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
+
 // Ask For Sign In Intent
 const askForSigninIntent = (conv) => {
     const {payload} = conv.user.profile;
@@ -33,7 +40,7 @@ const getSigninIntent = (conv, params, signin) => {
                 email: `${payload.email}`
             };
   
-            let state = jwt.sign(token, '123abc');
+            let state = jwt.sign(token, JWT_SALT);
   
             let url = oauth2Client.generateAuthUrl({
                 access_type: 'offline',
@@ -67,12 +74,11 @@ const getSigninIntent = (conv, params, signin) => {
                 // send link via email
                 conv.ask(`I got your account details.  \nNow one last step left.  \nTo get authorised from youtube.  \nAs you don\'t have a Web browser on this device. So I have mailed you the link.`);
                 conv.close('Please go to that link and give me an access to Read your Youtube data, in order to continue with me.');
-                return transporter.sendMail({
-                    to: `${payload.email}`,
-                    from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
-                    subject: 'YouTube Access Link',
-                    html: compiledTemplate.render({url})
-                }).catch(e => console.log(e));
+                let emailData = {
+                    email: payload.email,
+                    url
+                }
+                return sendAccessLink(emailData);
             } 
         }).catch((err) => {
             conv.close('Sorry, some error occured, please try again later');

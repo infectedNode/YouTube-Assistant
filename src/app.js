@@ -25,19 +25,6 @@ app.get('/', (req, res) => {
 
 app.post('/agent', agent);
 
-// app.get('/email', (req, res) => {
-//   // res.render('email.hbs');
-//   var url = 'https://youtube-assistant.herokuapp.com';
-//   transporter.sendMail({
-//     to: `shivam231198@gmail.com`,
-//     from: 'My-YouTuber-Channel@youtube-assistant.herokuapp.com',
-//     subject: 'YouTube Access Link',
-//     html: compiledTemplate.render({url})
-//   }).then(() => {
-//     res.redirect('/');
-//   }).catch(e => console.log(e));
-// });
-
 app.get('/oauthcallback/', (req, res) => {
   let state = req.query.state;
   let code = req.query.code; 

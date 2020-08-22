@@ -1,7 +1,7 @@
 # "Your YouTube Assistant" Node.js Fulfillment:collision:
 
 It's a backend support for the Actions On Google app <b>"My Youtuber Channel"</b>.
-This app helps a youtuber to get updated reports and status of their youtube channel just via voice, through Google Assistant App.
+This app helps youtuber's to get updated reports and status of their youtube channel just via voice, through Google Assistant App.
 
 <img width="100px" src="https://youtube-assistant.herokuapp.com/images/camera-dark.png">
 
